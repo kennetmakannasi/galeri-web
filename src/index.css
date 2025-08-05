@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins-Regular.ttf');
+}
+
+@theme{
+  --color-background-light-black: #0D0D0D;
+  --color-bright-yellow: #DFD700;
+  --color-dark-gray: #2E2E2E;
+}
+
+@keyframes slide {
+  from{
+    transform: translate3d(-100%, 0, 0);
+  }
+  to{
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+html{
+  background-color: #0D0D0D;
+  color: #ffffff;
+  font-family: Poppins;
+  font-size: 15px;
+}
+
+.animate-sidebar{
+  animation: slide 0.5s;
+}
