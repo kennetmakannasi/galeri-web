@@ -7,7 +7,7 @@ export default function NewGallery() {
     <div className="mt-8">
       <div>
         <h2 className="text-2xl font-bold mb-4 text-white">
-          See What's <span className="text-yellow-400">New</span> on
+          See What's <span className="text-bright-yellow">New</span> on
         </h2>
       </div>
 

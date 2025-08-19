@@ -2,7 +2,7 @@ import sawah from "../assets/sawah.jpeg";
 
 function CategoryCard({ title, image }) {
   return (
-    <div className="w-[400px] relative rounded-2xl overflow-hidden shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
+    <div className="w-full relative rounded-2xl overflow-hidden shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
       <img
         src={image}
         alt={title}
@@ -20,11 +20,11 @@ export default function Categories() {
     <section className="py-8">
       {/* Heading */}
       <h2 className="text-2xl font-bold mb-6">
-        <span className="text-yellow-400">Cate</span>gories
+        <span className="text-bright-yellow">Cate</span>gories
       </h2>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mr-130">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
         <CategoryCard title="Food & drinks" image = {sawah} />
         <CategoryCard title="Art" image = {sawah} />
         <CategoryCard title="Transportation" image = {sawah} />
