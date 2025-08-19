@@ -10,8 +10,10 @@ export default function Sidebar(){
     console.log(isOpened)
     
     return(
-        <div className="absolute md:relative h-screen flex items-center">
-        <div className={`w-56 h-screen border-r-2 bg-background-light-black border-dark-gray px-5 relative transition-all duration-150 md:translate-x-0 ${isOpened ? 'translate-x-0 z-30': '-translate-x-full'}`}>
+        <div>
+        <div className={`fixed top-0 left-0 md:translate-x-0 h-screen w-56 border-r-2 bg-background-light-black border-dark-gray px-5 transition-all duration-150 z-30
+          ${isOpened ? 'translate-x-0' : '-translate-x-full'}
+        `}>
             <div className="py-7">
                 <h1 className="ml-1">Gallery Photo</h1>
                 <div className="w-full mt-4 h-0.5 bg-gradient-to-r from-bright-yellow  to-white"></div>
@@ -72,9 +74,12 @@ export default function Sidebar(){
                 </div>    
             </div>
         </div>    
-            <button className={`md:hidden bg-dark-gray rounded-r-full hover:bg-dark-gray transition-all duration-150 ${isOpened ? '': 'absolute'}`} type="button" onClick={()=> setIsOpened(!isOpened)}>
-                {isOpened ? <Icon height={25} icon={'ic:round-chevron-left'}/>: <Icon height={25} icon={'ic:round-chevron-right'}/>}
-            </button>
+        <button className={`md:hidden fixed top-20 left-0 bg-dark-gray rounded-r-full hover:bg-dark-gray transition-all w-2 h-20 z-40 duration-150 ${
+            isOpened ? 'ml-56' : 'left-0'
+        }`}
+        type="button"
+        onClick={() => setIsOpened(!isOpened)}
+      ></button>
         </div>
         
     )

@@ -15,7 +15,7 @@ export default function ImageScrollSection() {
   ];
 
   return (
-    <div className="w-full px-4 py-6 ml-[200px]">
+    <div className="w-full px-4 py-6">
       <h2 className="text-lg font-bold mb-4 text-yellow-400">
         Tren<span className="text-white">ding</span>
       </h2>

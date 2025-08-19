@@ -3,6 +3,7 @@ import OrgGanteng from "../assets/OrgGanteng.jpg";
 import yard from "../assets/yard.jpeg";
 import HomeGalery from "../components/HomeGalery";
 import { useNavigate } from "react-router";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 
 const SelfProfile = () => {
@@ -52,16 +53,7 @@ const SelfProfile = () => {
               className="w-6 h-6 flex items-center justify-center text-white cursor-pointer"
               onClick={() => setDropdownOpen(!dropdownOpen)}
             >
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <circle cx="12" cy="12" r="1" />
-                <circle cx="19" cy="12" r="1" />
-                <circle cx="5" cy="12" r="1" />
-              </svg>
+              <Icon icon={"bi:three-dots"}/>
             </div>
 
             {/* Dropdown */}

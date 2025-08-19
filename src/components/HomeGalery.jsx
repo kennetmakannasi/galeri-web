@@ -1,4 +1,5 @@
 import Masonry from "react-layout-masonry";
+import { Link } from "react-router";
 
 const galleryImages = [
   "/src/assets/gunung.jpeg",
@@ -19,13 +20,15 @@ export default function HomeGalery() {
     <div className="mt-8">
       <Masonry columns={{ 640: 2, 1024: 3, 1280: 5 }} gap={16}>
       {galleryImages.map((src, idx) => (
-        <div key={idx} className="mb-3 break-inside-avoid rounded-xl overflow-hidden">
-          <img
-            src={src}
-            alt={`Gallery image ${idx + 1}`}
-            className="w-full h-auto object-cover"
-          />
-        </div>
+        <Link to={'/post'}>
+          <div key={idx} className="mb-3 break-inside-avoid rounded-xl overflow-hidden">
+            <img
+              src={src}
+              alt={`Gallery image ${idx + 1}`}
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </Link>
       ))}
       </Masonry>
     </div>
