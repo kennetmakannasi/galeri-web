@@ -3,12 +3,12 @@ import OrgGanteng from "../assets/OrgGanteng.jpg";
 import yard from "../assets/yard.jpeg";
 import HomeGalery from "../components/HomeGalery";
 import { useNavigate } from "react-router";
+import Dropdown from "../components/dropdown";
 import { Icon } from "@iconify/react/dist/iconify.js";
-
+import { Link } from "react-router";
 
 const SelfProfile = () => {
-  const navigate = useNavigate();
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+   const navigate = useNavigate(); // Tidak dipakai, boleh dihapus
 
   return (
     <div className="min-h-screen text-white">
@@ -45,32 +45,36 @@ const SelfProfile = () => {
           </div>
         </div>
 
-        {/* Tombol Aksi + Dropdown */}
-        <div className="absolute bottom-[-60px] right-10 flex items-center gap-3">
-          {/* Icon tiga titik */}
-          <div className="relative">
-            <div
-              className="w-6 h-6 flex items-center justify-center text-white cursor-pointer"
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              <Icon icon={"bi:three-dots"}/>
-            </div>
+        {/* Dropdown di atas kanan tapi nggak pojok banget + Follow button */}
+        <div className="absolute top-84 right-23 z-50 flex items-center gap-4">
+          <Dropdown
+            buttonContent={<Icon height={30} icon={"bi:three-dots"} />}
+            dropdownContent={
+              <div className="flex flex-col gap-3 mr-10">
+                 <Link to="/profile/edit">
+                                 <button
+                  type="button"
+                  className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                  >
+                  Edit Profile
+                  </button>
+                 </Link>
 
-            {/* Dropdown */}
-            {dropdownOpen && (
-              <div className="absolute right-4 mt-full w-32 bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-                <button   onClick={() => navigate('/profile/edit')}
-                className="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-t-lg">
-                  Edit
-                </button>
-                <button className="w-full text-left px-4 py-2 text-red-400 hover:bg-gray-700 rounded-b-lg">
-                  Report
-                </button>
+                  <button
+                    type="button"
+                    className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                    onClick={() => navigate("/")}
+                    >
+                      Report
+                    </button>
               </div>
-            )}
-          </div>
+            }
+          />
 
-          <button className="bg-gray-800 hover:bg-gray-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors">
+          <button
+            type="button"
+            className="px-5 py-2 rounded-md text-sm bg-gradient-to-b from-gray-600 to-gray-700 border border-gray-500 hover:from-gray-500 hover:to-gray-600 transition-shadow shadow-sm"
+          >
             Follow
           </button>
         </div>
@@ -94,7 +98,7 @@ const SelfProfile = () => {
         </p>
 
         {/*garis*/}
-        <div className="mx-auto w-[1240px] h-[2px] bg-yellow-400 mt-6 mb-15"></div>
+        <div className="mx-auto w-[1200px] h-[2px] bg-yellow-400 mt-6 mb-12"></div>
 
         {/* Gallery */}
         <HomeGalery />
