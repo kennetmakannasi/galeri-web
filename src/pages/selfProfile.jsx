@@ -11,98 +11,84 @@ const SelfProfile = () => {
    const navigate = useNavigate(); // Tidak dipakai, boleh dihapus
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="min-h-screen text-white px-4 md:px-12">
       {/* Header Cover */}
-      <div className="relative">
         <img
-          src={yard}
+          src='https://img.freepik.com/foto-gratis/indah_1203-2633.jpg?semt=ais_hybrid&w=740&q=80'
           alt="hero"
-          className="w-319 h-80 ml-15 mt-15 object-cover rounded-4xl"
+          className="w-full h-80 mt-8 object-cover rounded-4xl"
+        />
+        <img
+          src={OrgGanteng}
+          alt="Profile"
+          className="w-40 h-40 rounded-full border-4 border-black object-cover absolute top-64 ml-10  "
         />
 
-        {/* Foto Profil */}
-        <div className="absolute bottom-[-110px] left-18 flex flex-col items-center">
-          <div className="relative">
-            <div className="w-40 h-40 rounded-full border-4 border-black overflow-hidden">
-              <img
-                src={OrgGanteng}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute bottom-2 right-5 w-6.5 h-6.5 bg-green-500 rounded-full border-2 border-black"></div>
-          </div>
-
           {/* Nama & Status */}
-          <div>
-            <div className="flex items-center gap-2 mt-5">
-              <h1 className="text-xl font-semibold">Aryo Tehillah Nathanael</h1>
-              <span className="px-2 py-1 bg-green-600 text-xs rounded-full ">
-                Active
-              </span>
+        <div className="grid grid-cols-1 md:grid-cols-2 pt-14">
+          <div className="mt-5 col-span-2 relative w-full">
+            <div>
+              <h1 className="text-xl font-semibold max-w-72">Aryo Tehillah Nathanael</h1>
+              <p className="text-gray-400 text-sm">@_madeby.nath</p>  
             </div>
-            <p className="text-gray-400 text-sm">@_madeby.nath</p>
+            <div className=" absolute right-3 top-0">
+              <Dropdown
+                buttonContent={<Icon height={30} icon={"bi:three-dots"} />}
+                dropdownContent={
+                  <div className="flex flex-col gap-3">
+                    <Link to="/profile/edit">
+                      <button
+                      type="button"
+                      className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                      >
+                      Edit Profile
+                      </button>
+                    </Link>
+
+                    <button
+                      type="button"
+                      className="text-left px-3 py-2 md:py-0 hover:bg-gray-700 rounded"
+                      onClick={() => navigate("/")}
+                      >
+                        Report
+                    </button>
+                  </div>
+                  }
+                />   
+            </div>
+
           </div>
-        </div>
-
-        {/* Dropdown di atas kanan tapi nggak pojok banget + Follow button */}
-        <div className="absolute top-84 right-23 z-50 flex items-center gap-4">
-          <Dropdown
-            buttonContent={<Icon height={30} icon={"bi:three-dots"} />}
-            dropdownContent={
-              <div className="flex flex-col gap-3 mr-10">
-                 <Link to="/profile/edit">
-                                 <button
-                  type="button"
-                  className="text-left px-3 py-2 hover:bg-gray-700 rounded"
-                  >
-                  Edit Profile
-                  </button>
-                 </Link>
-
+          <div className="w-full relative flex items-center md:col-start-2 h-36">
+            <div className="md:absolute md:right-3">
                   <button
                     type="button"
-                    className="text-left px-3 py-2 hover:bg-gray-700 rounded"
-                    onClick={() => navigate("/")}
-                    >
-                      Report
-                    </button>
+                    className=" w-full py-2 my-4 rounded-md text-sm bg-gradient-to-b from-gray-600 to-gray-700 border border-gray-500 hover:from-gray-500 hover:to-gray-600 transition-shadow shadow-sm"
+                  >
+                    Follow
+                  </button>
+              <div>
+                <span className="text-white font-semibold">1.8M</span>
+                <span className="text-gray-400 ml-1">followers</span>
               </div>
-            }
-          />
-
-          <button
-            type="button"
-            className="px-5 py-2 rounded-md text-sm bg-gradient-to-b from-gray-600 to-gray-700 border border-gray-500 hover:from-gray-500 hover:to-gray-600 transition-shadow shadow-sm"
-          >
-            Follow
-          </button>
-        </div>
+              <div>
+                <span className="text-white font-semibold">256</span>
+                <span className="text-gray-400 ml-1.5">following</span>
+              </div>
+        {/* <p className="text-gray-400 text-sm mt-full">
+          followed by <span className="text-white">aryo.pplg²_</span> + 10 more
+        </p> */}
+            </div>
+          </div>
       </div>
 
       {/* Bagian bawah */}
-      <div className="mt-20 px-10">
-        {/* Stats */}
-        <div className="right-10 text-right">
-          <div className="relative top-7">
-            <span className="text-white font-semibold">1.8M</span>
-            <span className="text-gray-400 ml-1">followers</span>
-          </div>
-          <div className="relative top-7">
-            <span className="text-white font-semibold">256</span>
-            <span className="text-gray-400 ml-1.5">following</span>
-          </div>
-        </div>
-        <p className="text-gray-400 text-sm mt-full ml-8.5">
-          followed by <span className="text-white">aryo.pplg²_</span> + 10 more
-        </p>
-
-        {/*garis*/}
-        <div className="mx-auto w-[1200px] h-[2px] bg-yellow-400 mt-6 mb-12"></div>
-
-        {/* Gallery */}
-        <HomeGalery />
+      <div className="w-full relative ">
       </div>
+      <div>
+        <div className="mx-auto w-full h-[2px] bg-bright-yellow mt-6 mb-12"></div>
+        <HomeGalery /> 
+      </div>
+
     </div>
   );
 };
