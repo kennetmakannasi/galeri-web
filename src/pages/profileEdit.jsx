@@ -20,17 +20,17 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="min-h-screen text-white"> {/* Hapus bg-gray-900 */}
+    <div className="min-h-screen text-white px-4 md:px-12"> {/* Hapus bg-gray-900 */}
       {/* Header Cover - Samakan dengan SelfProfile */}
       <div className="relative">
         <img
           src={yard}
           alt="hero"
-          className="w-319 h-80 ml-15 mt-15 object-cover rounded-4xl"
+          className="w-full h-80 mt-15 object-cover rounded-4xl"
         />
 
       {/*garis*/}
-      <div className="w-328 h-px bg-yellow-500 absolute bottom-[-123px] absolute left-11.5"></div>
+      <div className="w-full h-px bg-bright-yellow absolute bottom-[-123px] absolute"></div>
 
         {/* Foto Profil - Samakan dengan SelfProfile */}
         <div className="absolute bottom-[-110px] left-18 flex flex-col items-center">
@@ -58,7 +58,13 @@ const EditProfile = () => {
         </div>
 
         {/* Back Button */}
-        <div className="absolute bottom-[-60px] right-18">
+        <div className="absolute bottom-[-60px] right-0 flex ">
+          <button
+            onClick={() => navigate('/')}
+            className="bg-gray-800 hover:bg-gray-700 px-5 mr-2 py-2 rounded-lg text-sm font-medium transition-colors" 
+          >
+            Log out
+          </button>
           <button 
             onClick={() => navigate('/')}
             className="bg-gray-800 hover:bg-gray-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors"
@@ -69,17 +75,11 @@ const EditProfile = () => {
       </div>
 
       {/*Log out*/}
-      <div className="absolute bottom-151 right-40">
-        <button
-          onClick={() => navigate('/')}
-          className="bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded-lg text-sm font-medium transition-colors" 
-        >
-          Log out
-        </button>
+      <div className="absolute bottom-151">
       </div>
 
       {/* Form Content - Sesuaikan margin top karena header baru */}
-      <div className="mt-38 px-10">
+      <div className="mt-38">
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Profile Photo */}
           <div className="ml-8 mb-6">
@@ -119,7 +119,7 @@ const EditProfile = () => {
           </div>
 
           {/* garis */}
-          <div className="w-full h-px bg-yellow-500 my-8"></div>
+          <div className="w-full h-px bg-bright-yellow my-8"></div>
 
           {/* Full Name */}
           <div>

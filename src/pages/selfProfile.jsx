@@ -1,6 +1,5 @@
 import React from "react";
 import OrgGanteng from "../assets/OrgGanteng.jpg";
-import yard from "../assets/yard.jpeg";
 import HomeGalery from "../components/HomeGalery";
 import { useNavigate } from "react-router";
 import Dropdown from "../components/dropdown";
@@ -44,14 +43,6 @@ const SelfProfile = () => {
                       Edit Profile
                       </button>
                     </Link>
-
-                    <button
-                      type="button"
-                      className="text-left px-3 py-2 md:py-0 hover:bg-gray-700 rounded"
-                      onClick={() => navigate("/")}
-                      >
-                        Report
-                    </button>
                   </div>
                   }
                 />   
@@ -60,12 +51,6 @@ const SelfProfile = () => {
           </div>
           <div className="w-full relative flex items-center md:col-start-2 h-36">
             <div className="md:absolute md:right-3">
-                  <button
-                    type="button"
-                    className=" w-full py-2 my-4 rounded-md text-sm bg-gradient-to-b from-gray-600 to-gray-700 border border-gray-500 hover:from-gray-500 hover:to-gray-600 transition-shadow shadow-sm"
-                  >
-                    Follow
-                  </button>
               <div>
                 <span className="text-white font-semibold">1.8M</span>
                 <span className="text-gray-400 ml-1">followers</span>
