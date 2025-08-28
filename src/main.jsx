@@ -1,20 +1,21 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, redirect, RouterProvider } from "react-router";
 
 import AuthLayout from './components/layout/authLayout.jsx';
-import Login from './pages/auth/login.jsx';
-import Register from './pages/auth/register.jsx';
+import Login, { handleLogin } from './pages/auth/login.jsx';
+import Register, { handleRegister } from './pages/auth/register.jsx';
 
 import MainLayout from './components/layout/mainLayout.jsx';
 import Home from './pages/home.jsx';
 import Explore from './pages/explore.jsx';
 import Bookmark from './pages/bookmark.jsx';
-import Post from './pages/post.jsx';
+import Post, { PostLoader } from './pages/post.jsx';
 import SelfProfile from './pages/selfProfile.jsx';
 import ProfileEdit from './pages/profileEdit.jsx';
 import User from './pages/user.jsx';
+import axios from 'axios';
 
 function ErrorPage() {
   return (
@@ -30,10 +31,12 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login/>,
+        action: handleLogin
       },
       {
         path: "register",
-        element: <Register/>
+        element: <Register/>,
+        action: handleRegister
       },      
     ]
   },
@@ -51,8 +54,10 @@ const router = createBrowserRouter([
         element: <Explore/>
       },
       {
-        path: "/post",
+        path: "/post/:id",
         element: <Post/>,
+        loader: PostLoader
+        
       },
       {
         path: "/bookmark",

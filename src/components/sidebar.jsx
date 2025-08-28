@@ -1,6 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
 import { useState } from "react";
 import { Link, useLocation } from "react-router"
+import Cookies from "js-cookie";
+import axios from "axios";
 
 export default function Sidebar(){
     const location = useLocation();
@@ -8,7 +10,19 @@ export default function Sidebar(){
     const [isOpened , setIsOpened] = useState(true);
 
     console.log(isOpened)
-    
+
+    const token = Cookies.get("token")
+
+    async function handleLogOut(){
+        await axios.get("http://127.0.0.1:8000/api/auth/logout",{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        Cookies.remove("token")
+    }
+    console.log(token)
+
     return(
         <div>
         <div className={`fixed top-0 left-0 md:translate-x-0 h-screen w-56 border-r-2 bg-background-light-black border-dark-gray px-5 transition-all duration-150 z-30
@@ -68,9 +82,9 @@ export default function Sidebar(){
                                 ${path === '/profile' ? 'after:absolute after:h-0.5 after:bottom-0 after:w-full after:left-0 after:bg-gradient-to-r after:from-bright-yellow after:to-white after:ml-3 after:duration-150 after:transition-all':''}`}>Profile</p>     
                         </div>
                     </Link>
-                    <Link className="right-10 absolute rounded-full p-1 hover:bg-dark-gray transition-all duration-150" to={'/'}>
+                    <button type="button" onClick={handleLogOut} className="right-10 absolute rounded-full p-1 hover:bg-dark-gray transition-all duration-150" to={'/'}>
                         <Icon height={20} icon={'mdi-light:logout'}/>
-                    </Link>
+                    </button>
                 </div>    
             </div>
         </div>    

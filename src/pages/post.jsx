@@ -3,9 +3,24 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import OrgGanteng from "../assets/OrgGanteng.jpg";
 import yard from "../assets/yard.jpeg";
 import Dropdown from "../components/dropdown";
+import { useLoaderData } from "react-router";
+import axios from "axios";
+import Cookies from "js-cookie";
+
+export async function PostLoader({params}){
+  const token = Cookies.get("token")
+  const res = await axios.get(`http://127.0.0.1:8000/api/post/${params.id}`,
+    {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+  )
+  return res.data.content
+}
 
 export default function PostPage() {
-  // awalannya cuma dua comment biar mirip ss lo
+  const data = useLoaderData();
   const [comments, setComments] = useState([
     {
       id: 1,
@@ -50,15 +65,14 @@ export default function PostPage() {
           {/* header */}
           <div className="flex items-start gap-3">
             <img
-              src={OrgGanteng}
+              src={data.post.user.profile_picture}
               alt="avatar"
               className="w-10 h-10 rounded-full object-cover border-2 border-[#2b2b2b]"
             />
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Aryo Tehillah Nathanael</p>
-                  <p className="text-xs text-gray-400">@_madeby.nath</p>
+                  <p className="font-medium">{data.post.user.username}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Dropdown
@@ -80,7 +94,7 @@ export default function PostPage() {
 
               {/* caption */}
               <p className="mt-3 text-sm leading-relaxed">
-                ANUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU
+                {data.post.description}
               </p>
             </div>
           </div>
@@ -88,7 +102,7 @@ export default function PostPage() {
           {/* image */}
           <div className="mt-4">
             <img
-              src={yard}
+              src={data.post.image_url}
               alt="post"
               className="w-full rounded-lg object-cover border border-[#222] max-h-[640px]"
             />
@@ -104,15 +118,15 @@ export default function PostPage() {
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2 text-sm">
                 <Icon icon={"uil:comment-lines"} />
-                <span>259</span>
+                <span>{data.Comment_count}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Icon icon={"material-symbols:favorite-outline-rounded"} />
-                <span>259</span>
+                <span>{data.Likes}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Icon icon={"material-symbols-light:bookmarks"} />
-                <span>259</span>
+                <span>{data.Saves}</span>
               </div>
             </div>
           </div>
