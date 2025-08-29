@@ -11,11 +11,10 @@ import MainLayout from './components/layout/mainLayout.jsx';
 import Home from './pages/home.jsx';
 import Explore from './pages/explore.jsx';
 import Bookmark from './pages/bookmark.jsx';
-import Post, { PostLoader } from './pages/post.jsx';
+import Post, { handleComment } from './pages/post.jsx';
 import SelfProfile from './pages/selfProfile.jsx';
 import ProfileEdit from './pages/profileEdit.jsx';
 import User from './pages/user.jsx';
-import axios from 'axios';
 
 function ErrorPage() {
   return (
@@ -56,8 +55,8 @@ const router = createBrowserRouter([
       {
         path: "/post/:id",
         element: <Post/>,
-        loader: PostLoader
-        
+        // loader: PostLoader,
+        action: handleComment
       },
       {
         path: "/bookmark",

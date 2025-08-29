@@ -4,24 +4,46 @@ import { Link } from "react-router";
 import axios from "axios";
 import PostSkeleton from "./postSkeleton";
 import Cookies from "js-cookie";
+import { useInView } from "react-intersection-observer";
 
 export default function HomeGalery() {
 
- const [data, setData] = useState();
-  const token = Cookies.get("token")
+  const [data, setData] = useState();
+  const token = Cookies.get("token");
+  const baseUrl = import.meta.env.VITE_API_URL;
+  const [page, setPage] = useState(1);
+  const [ref, inView] = useInView();
+  const [nextPage, setNextPage] = useState(null);
+  const [loading, setLoading] = useState(true);
 
  async function fetchData() {
-  const res = await axios.get(`http://127.0.0.1:8000/api/post?page=1`,{
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-  setData(res.data.content.data)  
+  const res = await axios.get(`${baseUrl}/api/post?page=${page}`,{
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  if(page ===1){
+    setData(res.data.content.data)
+    setNextPage(res.data.content.last_page)
+  }  
+  else{
+    setData(prevDatas => prevDatas.concat(res.data.content.data))
+    setLoading(false)
+  }
  }
 
  useEffect(()=>{
   fetchData()
- },[])
+ },[page])
+
+ if(inView){
+      setTimeout(() => {
+      console.log("inview akaka")  
+      setPage(page+1)
+      setLoading(true)
+    }, 50);
+ }
 
  console.log(data)
 
@@ -44,7 +66,18 @@ export default function HomeGalery() {
             <div className={`${index % 2 === 0 ? 'h-80': 'h-56'} w-full bg-dark-gray rounded-xl animate-pulse`}>
             </div>
         ))}
+        {loading ? 
+          [...Array(10)].map((item, index)=>(
+            <div className={`${index % 2 === 0 ? 'h-80': 'h-56'} w-full bg-dark-gray rounded-xl animate-pulse`}>
+            </div>
+          )) : ''
+        }
       </Masonry>
+      {nextPage >= page ? (
+        <div className="h-1 w-full" ref={ref}></div>
+      ):(
+        'no more page'
+      )}
     </div>
   );
 }

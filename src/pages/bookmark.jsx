@@ -1,8 +1,11 @@
+import axios from "axios";
 import OrgGanteng from "../assets/OrgGanteng.jpg";
 import yard from "../assets/yard.jpeg";
 import Categories from "../components/Category";
 import Masonry from "react-layout-masonry";
-
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 function ProfileHeader({ coverImage, profileImage, username }) {
   return (
@@ -39,16 +42,18 @@ function TitleSection({ title }) {
 // ImageGrid.jsx
 function ImageGrid({ images }) {
   return (
-    <Masonry columns={{ 640: 2, 1024: 3, 1440: 4 }} gap={17}>
-      {images.map((src, idx) => (
-        <img
-          key={idx}
-          src={src}
-          alt={`img-${idx}`}
-          className="w-full h-full object-cover rounded-lg"
-        />
-      ))}
-    </Masonry>
+      <Masonry columns={{ 640: 2, 1024: 3, 1440: 4 }} gap={17}>
+        {images?.map((src, idx) => (
+          <Link to={`/post/${src.post.id}`}>
+            <img
+              key={idx}
+              src={src.post.image_url}
+              alt={`img-${idx}`}
+              className="w-full h-full object-cover rounded-lg"
+            />  
+          </Link>
+        ))}
+      </Masonry>
   );
 }
 
@@ -70,6 +75,27 @@ export default function ProfilePage() {
   "/src/assets/yard.jpeg",
   ];
 
+
+  const [bookmarkData, setBookmarkData] = useState()
+
+  const token = Cookies.get("token")
+
+  async function fetchData() {
+    const res = await axios.get('http://127.0.0.1:8000/api/save',{
+       headers: {
+          Authorization: `Bearer ${token}`
+        }
+    })
+
+    setBookmarkData(res.data.content.data)
+  }
+
+  useEffect(()=>{
+    fetchData()
+  },[])
+
+  console.log(bookmarkData)
+
   return (
     <div className="px-4 md:px-12 min-h-screen text-white">
       <ProfileHeader
@@ -80,7 +106,7 @@ export default function ProfilePage() {
 
       <TitleSection title={"Save it for later."} />
 
-      <ImageGrid images={images} />
+      <ImageGrid images={bookmarkData} />
     </div>
   );
 }

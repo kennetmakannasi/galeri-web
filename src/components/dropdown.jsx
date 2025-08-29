@@ -4,7 +4,7 @@ export default function Dropdown({buttonContent, dropdownContent}) {
   return (
     <div>
       <Menu>
-        <MenuButton className="p-1 rounded-full hover:bg-dark-gray duration-150 transition-all">
+        <MenuButton onClick={close} className="p-1 rounded-full hover:bg-dark-gray duration-150 transition-all">
           {buttonContent}
         </MenuButton>
 
