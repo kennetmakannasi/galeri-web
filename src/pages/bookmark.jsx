@@ -6,21 +6,27 @@ import Masonry from "react-layout-masonry";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import ScrollGrid from "../components/scrollGrid";
 
 function ProfileHeader({ coverImage, profileImage, username }) {
   return (
     <div className="relative">
       {/* Cover */}
-      <img
-        src ={yard}
-        alt ="cover"
-        className="w-full h-80 object-cover rounded-4xl mt-8"
-      />
+      {coverImage? (
+        <img
+          src ={coverImage}
+          alt ="cover"
+          className="w-full h-80 object-cover rounded-4xl mt-8"
+        />  
+      ):(
+        <div className="w-full h-80 rounded-4xl mt-8 bg-dark-gray"></div>
+      )}
+
 
       {/* Foto Profil */}
       <div className="absolute bottom-[-30px] right-9 mb-0.5">
         <img
-          src={OrgGanteng}
+          src={profileImage}
           alt="profile"
           className="w-40 h-40 rounded-full border-4 border-black object-cover"
         />
@@ -39,74 +45,39 @@ function TitleSection({ title }) {
   );
 }
 
-// ImageGrid.jsx
-function ImageGrid({ images }) {
-  return (
-      <Masonry columns={{ 640: 2, 1024: 3, 1440: 4 }} gap={17}>
-        {images?.map((src, idx) => (
-          <Link to={`/post/${src.post.id}`}>
-            <img
-              key={idx}
-              src={src.post.image_url}
-              alt={`img-${idx}`}
-              className="w-full h-full object-cover rounded-lg"
-            />  
-          </Link>
-        ))}
-      </Masonry>
-  );
-}
-
 // Page.jsx
 export default function ProfilePage() {
-  const images = [
-  "/src/assets/gunung.jpeg",
-  "/src/assets/a.jpeg",
-  "/src/assets/mall.jpeg",
-  "/src/assets/sawah.jpeg",
-  "/src/assets/mount2.jpeg",
-  "/src/assets/hmblng.jpeg",
-  "/src/assets/hmblng.jpeg",
-  "/src/assets/mall.jpeg",
-  "/src/assets/mall.jpeg",
-  "/src/assets/mall.jpeg",
-  "/src/assets/yard.jpeg",
-  "/src/assets/yard.jpeg",
-  "/src/assets/yard.jpeg",
-  ];
 
-
-  const [bookmarkData, setBookmarkData] = useState()
+  const [selfData, setSelfData] = useState()
 
   const token = Cookies.get("token")
 
-  async function fetchData() {
-    const res = await axios.get('http://127.0.0.1:8000/api/save',{
+  async function fetchSelfData() {
+    const res = await axios.get('http://127.0.0.1:8000/api/auth/self',{
        headers: {
           Authorization: `Bearer ${token}`
         }
     })
 
-    setBookmarkData(res.data.content.data)
+    setSelfData(res.data.content)
   }
 
   useEffect(()=>{
-    fetchData()
+    fetchSelfData()
   },[])
 
-  console.log(bookmarkData)
+  console.log(selfData)
 
   return (
     <div className="px-4 md:px-12 min-h-screen text-white">
       <ProfileHeader
-        coverImage="/src/assets/cover.jpg"
-        profileImage="/src/assets/profile.jpg"
-        username="@_madeby.nath"
+        coverImage={selfData?.profile_banner}
+        profileImage={selfData?.profile_picture}
       />
 
       <TitleSection title={"Save it for later."} />
 
-      <ImageGrid images={bookmarkData} />
+      <ScrollGrid endpoint={'save'}/>
     </div>
   );
 }

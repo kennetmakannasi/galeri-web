@@ -1,13 +1,16 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useLocation } from "react-router"
 import Cookies from "js-cookie";
 import axios from "axios";
+import UploadModal from "./AddPost";
+import { SessionData } from "./layout/mainLayout";
 
 export default function Sidebar(){
     const location = useLocation();
     const path = location.pathname;
     const [isOpened , setIsOpened] = useState(true);
+    const sessionData = useContext(SessionData);
 
     console.log(isOpened)
 
@@ -20,6 +23,7 @@ export default function Sidebar(){
             }
         })
         Cookies.remove("token")
+        Cookies.remove("uId")
     }
     console.log(token)
 
@@ -65,17 +69,12 @@ export default function Sidebar(){
                     <input className="bg-dark-gray h-full px-9 w-full rounded-lg" type="text" placeholder="Search"/>
                 </li>
                 <li className="my-5">
-                    <Link className="flex" to={''}>
-                        <Icon height={20} icon={'basil:add-outline'}/>
-                        <div className="relative">
-                            <p className='ml-3 after:absolute after:h-0.5 after:bottom-0 after:w-0 after:left-0 after:bg-white after:ml-3 hover:after:w-full after:duration-150 after:transition-all'>Add Post</p>
-                        </div>
-                    </Link>
+                    <UploadModal/>
                 </li>
             </ul>
             <div className="my-5 w-full absolute bottom-3">
                 <div className="w-full flex relative h-full items-center">
-                    <Link className="flex" to={'/profile'}>
+                    <Link className="flex" to={`/profile/${sessionData?.username}`}>
                         <Icon height={20} icon={'iconamoon:profile-circle-fill'}/>
                         <div className="relative">
                             <p className={`ml-3 after:absolute after:h-0.5 after:bottom-0 after:w-0 after:left-0 after:bg-white after:ml-3 hover:after:w-full after:duration-150 after:transition-all

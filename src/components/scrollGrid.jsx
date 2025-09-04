@@ -6,8 +6,7 @@ import PostSkeleton from "./postSkeleton";
 import Cookies from "js-cookie";
 import { useInView } from "react-intersection-observer";
 
-export default function HomeGalery() {
-
+export default function ScrollGrid({endpoint}) {
   const [data, setData] = useState();
   const token = Cookies.get("token");
   const baseUrl = import.meta.env.VITE_API_URL;
@@ -17,7 +16,7 @@ export default function HomeGalery() {
   const [loading, setLoading] = useState(true);
 
  async function fetchData() {
-  const res = await axios.get(`${baseUrl}/api/post?page=${page}`,{
+  const res = await axios.get(`${baseUrl}/api/${endpoint}?page=${page}`,{
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -26,6 +25,7 @@ export default function HomeGalery() {
   if(page ===1){
     setData(res.data.content.data)
     setNextPage(res.data.content.last_page)
+    setLoading(false)
   }  
   else{
     setData(prevDatas => prevDatas.concat(res.data.content.data))
@@ -51,14 +51,13 @@ export default function HomeGalery() {
     <div className="mt-8">
       <Masonry columns={{ 640: 2, 1024: 3, 1440: 4 }} gap={17}>
       {data?.map((item, idx) => (
-        <Link to={`/post/${item.id}`}>
+        <Link to={`/post/${endpoint === 'save' ? item.post.id: item.id}`}>
           <div key={idx} className="mb-3 break-inside-avoid rounded-xl overflow-hidden">
             <img
               src={item.image_url}
               alt={`Gallery image ${idx + 1}`}
               className="w-full h-auto object-cover"
             />
-            <p>{item.title}</p>
           </div>
         </Link>
       )) || 
@@ -72,12 +71,12 @@ export default function HomeGalery() {
             </div>
           )) : ''
         }
-      </Masonry>
-      {nextPage >= page ? (
+        {nextPage >= page ? (
         <div className="h-1 w-full" ref={ref}></div>
       ):(
         'no more page'
       )}
+      </Masonry>
     </div>
   );
 }

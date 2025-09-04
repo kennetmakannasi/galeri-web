@@ -4,15 +4,14 @@ import './index.css'
 import { createBrowserRouter, redirect, RouterProvider } from "react-router";
 
 import AuthLayout from './components/layout/authLayout.jsx';
-import Login, { handleLogin } from './pages/auth/login.jsx';
-import Register, { handleRegister } from './pages/auth/register.jsx';
+import Login from './pages/auth/login.jsx';
+import Register from './pages/auth/register.jsx';
 
 import MainLayout from './components/layout/mainLayout.jsx';
 import Home from './pages/home.jsx';
 import Explore from './pages/explore.jsx';
 import Bookmark from './pages/bookmark.jsx';
 import Post, { handleComment } from './pages/post.jsx';
-import SelfProfile from './pages/selfProfile.jsx';
 import ProfileEdit from './pages/profileEdit.jsx';
 import User from './pages/user.jsx';
 
@@ -30,12 +29,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login/>,
-        action: handleLogin
       },
       {
         path: "register",
         element: <Register/>,
-        action: handleRegister
       },      
     ]
   },
@@ -55,7 +52,6 @@ const router = createBrowserRouter([
       {
         path: "/post/:id",
         element: <Post/>,
-        // loader: PostLoader,
         action: handleComment
       },
       {
@@ -66,11 +62,7 @@ const router = createBrowserRouter([
         path: "/profile",
         children: [
           {
-            index: true,
-            element: <SelfProfile/>
-          },
-          {
-            path: ":userId",
+            path: ":username",
             element: <User/>,
           },
           {

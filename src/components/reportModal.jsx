@@ -32,30 +32,30 @@ export default function ReportModal({open, onClose, repObj, triggerClose, repId}
                 transition 
                 className="duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 flex size-full items-center "
             >
-                <div className="size-full flex justify-center items-center">
-                    <div className="w-96 bg-dark-gray rounded-xl flex items-center justify-center">
-                        <div className="w-full p-3">
-                            <div className="flex">
+                <div className="size-full flex justify-center items-center px-4">
+                    <div className="bg-dark-gray rounded-xl flex items-center justify-center">
+                        <div className="w-full p-5">
+                            <div className="flex items-center">
                                 <button onClick={triggerClose}>
-                                    <Icon icon={'iconoir:cancel'}/>
+                                    <Icon height={30} icon={'iconoir:cancel'}/>
                                 </button>
-                                <h1 className="text-center">Why are you Reporting?</h1>    
+                                <p className="text-xl ml-3">Why are you Reporting?</p>    
                             </div>
-                            <ul>
+                            <ul className="mt-3">
                                 <li>
-                                    <button onClick={()=>handleReport('option1')}>Option1</button>
+                                    <button className="ml-4 py-2" onClick={()=>handleReport('option1')}>Option1</button>
                                 </li>
                                 <li>
-                                    <button onClick={()=>handleReport('option2')}>Option2</button>
+                                    <button className="ml-4 py-2" onClick={()=>handleReport('option2')}>Option2</button>
                                 </li>
                                 <li>
-                                    <button onClick={()=>handleReport('option3')}>Option3</button>
+                                    <button className="ml-4 py-2" onClick={()=>handleReport('option3')}>Option3</button>
                                 </li>
                                 <li>
-                                    <button onClick={()=>handleReport('option4')}>Option4</button>
+                                    <button className="ml-4 py-2" onClick={()=>handleReport('option4')}>Option4</button>
                                 </li>
                                 <li>
-                                    <button onClick={()=>handleReport('option5')}>Option5</button>
+                                    <button className="ml-4 py-2" onClick={()=>handleReport('option5')}>Option5</button>
                                 </li>
                             </ul>
 
