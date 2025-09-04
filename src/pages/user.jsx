@@ -49,7 +49,7 @@ export default function User(){
                       repId={id}/>
       {data?.profile_banner ? (
         <img
-            src='https://img.freepik.com/foto-gratis/indah_1203-2633.jpg?semt=ais_hybrid&w=740&q=80'
+            src={data?.profile_banner || 'a'}
             alt="hero"
             className="w-full h-80 mt-8 object-cover rounded-4xl"
           />

@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
 import { useContext, useState } from "react";
-import { Link, useLocation } from "react-router"
+import { Link, useLocation, useNavigate } from "react-router"
 import Cookies from "js-cookie";
 import axios from "axios";
 import UploadModal from "./AddPost";
@@ -11,6 +11,8 @@ export default function Sidebar(){
     const path = location.pathname;
     const [isOpened , setIsOpened] = useState(true);
     const sessionData = useContext(SessionData);
+    const [searchValue, setSearchValue] = useState("")
+    const navigate = useNavigate()
 
     console.log(isOpened)
 
@@ -24,8 +26,17 @@ export default function Sidebar(){
         })
         Cookies.remove("token")
         Cookies.remove("uId")
+        navigate('/auth/login')
     }
     console.log(token)
+
+    function handleSearch(event){
+        event.preventDefault()
+        console.log(searchValue)
+        navigate(`/search?q=${searchValue}`)
+        setSearchValue("")
+        navigate(0)
+    }
 
     return(
         <div>
@@ -66,7 +77,9 @@ export default function Sidebar(){
                 </li>
                 <li className="relative h-8 flex items-center">
                     <Icon className="absolute ml-3 text-gray-400" height={16} icon={'la:search'}/>
-                    <input className="bg-dark-gray h-full px-9 w-full rounded-lg" type="text" placeholder="Search"/>
+                    <form className="h-full" onSubmit={handleSearch}>
+                        <input value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} className="bg-dark-gray h-full px-9 w-full rounded-lg" type="text" placeholder="Search"/>    
+                    </form>
                 </li>
                 <li className="my-5">
                     <UploadModal/>

@@ -33,7 +33,7 @@ export default function MainLayout() {
 
   useEffect(()=>{
     middleware()
-  })
+  },[token])
 
   return (
     <SessionData.Provider value={selfData}>

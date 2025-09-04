@@ -87,16 +87,15 @@ export default function UploadModal() {
                     <p className="text-center text-lg mb-2">
                       Select a file or drag <br /> and drop it here
                     </p>
-                    <img src={previewImg || 'no'} alt="" />
+                    <div className="max-h-40 overflow-y-auto">
+                      <img className="w-full object-cover" src={previewImg || 'no'} alt="" />  
+                    </div>
                     <input className="opacity-0" type="file" name="" id="" {...register("image_url")}/>
                     <p className="text-xs text-gray-400 text-center">
                       It is recommended to use high-quality .jpg files less than 20 MB
                       in size or .mp4 files less than 200 MB in size.
                     </p>
                     <div className="border-b border-gray-600 my-4 w-full"></div>
-                    <button type="submit" className="bg-gray-600 w-full py-2 rounded-md hover:bg-gray-500 transition">
-                      Post
-                    </button>
                   </div>
 
                   {/* Input Title & Caption */}
@@ -117,6 +116,11 @@ export default function UploadModal() {
                         placeholder="Add caption"
                         className="w-full px-3 py-2 rounded-md bg-[#1e1e1e] border border-gray-700 text-white focus:outline-none"
                       ></textarea>
+                    </div>
+                    <div>
+                      <button type="submit" className="bg-gray-600 w-full py-2 rounded-md hover:bg-gray-500 transition">
+                      Post
+                    </button>
                     </div>
                   </div>  
                 </form>

@@ -6,7 +6,7 @@ import PostSkeleton from "./postSkeleton";
 import Cookies from "js-cookie";
 import { useInView } from "react-intersection-observer";
 
-export default function ScrollGrid({endpoint}) {
+export default function ScrollGrid({endpoint, searchQuery}) {
   const [data, setData] = useState();
   const token = Cookies.get("token");
   const baseUrl = import.meta.env.VITE_API_URL;
@@ -16,7 +16,7 @@ export default function ScrollGrid({endpoint}) {
   const [loading, setLoading] = useState(true);
 
  async function fetchData() {
-  const res = await axios.get(`${baseUrl}/api/${endpoint}?page=${page}`,{
+  const res = await axios.get(`${baseUrl}/api/${endpoint}?page=${page}${searchQuery? `&q=${searchQuery}`:''}`,{
     headers: {
       Authorization: `Bearer ${token}`
     }
