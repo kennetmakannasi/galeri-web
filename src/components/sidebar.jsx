@@ -2,40 +2,29 @@ import { Icon } from "@iconify/react/dist/iconify.js"
 import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router"
 import Cookies from "js-cookie";
+import { UseToken } from "../helpers/useToken";
 import axios from "axios";
 import UploadModal from "./AddPost";
 import { SessionData } from "./layout/mainLayout";
+import SearchBar from "./searchbar";
 
 export default function Sidebar(){
+    const baseUrl = import.meta.env.VITE_API_URL;
     const location = useLocation();
     const path = location.pathname;
     const [isOpened , setIsOpened] = useState(true);
     const sessionData = useContext(SessionData);
-    const [searchValue, setSearchValue] = useState("")
     const navigate = useNavigate()
 
-    console.log(isOpened)
-
-    const token = Cookies.get("token")
-
     async function handleLogOut(){
-        await axios.get("http://127.0.0.1:8000/api/auth/logout",{
+        await axios.get(`${baseUrl}/api/auth/logout`,{
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${UseToken()}`
             }
         })
         Cookies.remove("token")
         Cookies.remove("uId")
         navigate('/auth/login')
-    }
-    console.log(token)
-
-    function handleSearch(event){
-        event.preventDefault()
-        console.log(searchValue)
-        navigate(`/search?q=${searchValue}`)
-        setSearchValue("")
-        navigate(0)
     }
 
     return(
@@ -75,11 +64,8 @@ export default function Sidebar(){
                         </div>
                     </Link>
                 </li>
-                <li className="relative h-8 flex items-center">
-                    <Icon className="absolute ml-3 text-gray-400" height={16} icon={'la:search'}/>
-                    <form className="h-full" onSubmit={handleSearch}>
-                        <input value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} className="bg-dark-gray h-full px-9 w-full rounded-lg" type="text" placeholder="Search"/>    
-                    </form>
+                <li>
+                    <SearchBar/>
                 </li>
                 <li className="my-5">
                     <UploadModal/>

@@ -4,12 +4,13 @@ import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 
 export default function Login(){
+    const baseUrl = import.meta.env.VITE_API_URL;
     const {register, handleSubmit, formState: { errors }}= useForm();
     const navigate = useNavigate()
 
     async function onSubmit(data) {
         try{
-            const res = await axios.post("http://127.0.0.1:8000/api/auth/login", 
+            const res = await axios.post(`${baseUrl}/api/auth/login`, 
             {
                 username: data.username,
                 password: data.password

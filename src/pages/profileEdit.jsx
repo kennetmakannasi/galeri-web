@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { SessionData } from '../components/layout/mainLayout';
+import { UseToken } from '../helpers/useToken';
 
 const EditProfile = () => {
+  const baseUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
-  const token = Cookies.get("token");
   const data = useContext(SessionData);
   const {register, handleSubmit , setValue , watch} = useForm()
 
@@ -24,15 +24,17 @@ const EditProfile = () => {
       profile_banner: data.profile_banner[0]
     }
 
-    await axios.post("http://127.0.0.1:8000/api/users/editus", payload,{
+    await axios.post(`${baseUrl}/api/users/editus`, payload,{
       headers: {
         Authorization: 
-          `Bearer ${token}`,
+          `Bearer ${UseToken()}`,
           'Content-Type': 'multipart/form-data'
         }
     })
 
     navigate(0)
+
+    console.log(payload)
   }
 
   const proPicImg = watch("profile_picture");
@@ -52,7 +54,7 @@ const EditProfile = () => {
           <div className='relative h-80 w-full'>
             <input className='absolute size-full opacity-0' type="file" {...register("profile_banner")} />
             <img
-              src={previewProfileBanner || data?.profile_banner}
+              src={previewProfileBanner || baseUrl + data?.profile_banner}
               alt="hero"
               className="w-full h-80 mt-15 object-cover rounded-4xl"
             /> 
@@ -73,7 +75,7 @@ const EditProfile = () => {
             <div className="w-40 h-40 rounded-full relative border-4 border-black overflow-hidden">
               <input {...register("profile_picture")} className='size-full absolute opacity-0' type="file" />
               <img
-                src={previewProfilePicture || data?.profile_picture}
+                src={previewProfilePicture || baseUrl + data?.profile_picture}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />

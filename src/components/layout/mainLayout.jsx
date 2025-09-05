@@ -7,12 +7,13 @@ import Cookies from "js-cookie";
 export const SessionData = createContext()
 
 export default function MainLayout() {
+  const baseUrl = import.meta.env.VITE_API_URL;
   const token = Cookies.get("token")
   const navigate = useNavigate();
   const [selfData , setSelfData] = useState(); 
 
   async function fetchSelfData() {
-    const res = await axios.get('http://127.0.0.1:8000/api/auth/self',{
+    const res = await axios.get(`${baseUrl}/api/auth/self`,{
        headers: {
         Authorization: `Bearer ${token}`
       }

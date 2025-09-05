@@ -2,15 +2,15 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import { useForm } from "react-hook-form";
-import Cookies from "js-cookie";
+import { UseToken } from "../helpers/useToken";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
 export default function UploadModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const {register, handleSubmit, watch}= useForm();
-  const token = Cookies.get("token");
+  const {register, handleSubmit, watch, setValue}= useForm();
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   async function onSubmit(data) { 
     try{
@@ -20,10 +20,10 @@ export default function UploadModal() {
         "image_url": data.image_url[0]
       }
 
-      const res = await axios.post('http://127.0.0.1:8000/api/post', payload,
+      const res = await axios.post(`${baseUrl}/api/post`, payload,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${UseToken()}`,
             'Content-Type': 'multipart/form-data'
           }
         }
@@ -82,20 +82,31 @@ export default function UploadModal() {
               <Dialog.Panel className="bg-[#1e1e1e] p-6 rounded-2xl w-[700px] flex gap-6 text-white">
                 <form className="grid grid-cols-1 sm:grid-cols-2 gap-3" method="post" onSubmit={handleSubmit(onSubmit)}>
                   {/* Upload Box */}
-                  <div className="bg-[#2c2c2c] rounded-2xl p-6 flex flex-col items-center justify-center w-full border border-gray-700">
-                    <Icon icon="mdi:upload" className="text-4xl mb-3" />
-                    <p className="text-center text-lg mb-2">
-                      Select a file or drag <br /> and drop it here
-                    </p>
-                    <div className="max-h-40 overflow-y-auto">
-                      <img className="w-full object-cover" src={previewImg || 'no'} alt="" />  
-                    </div>
-                    <input className="opacity-0" type="file" name="" id="" {...register("image_url")}/>
-                    <p className="text-xs text-gray-400 text-center">
-                      It is recommended to use high-quality .jpg files less than 20 MB
-                      in size or .mp4 files less than 200 MB in size.
-                    </p>
-                    <div className="border-b border-gray-600 my-4 w-full"></div>
+                  <div className="bg-[#2c2c2c] rounded-2xl p-6 flex flex-col relative items-center justify-center w-full border border-gray-700">
+                    {previewImg ? (
+                      <>
+                                            <div className="max-h-80 overflow-y-auto">
+                        <img className="w-full object-cover" src={previewImg || 'no'} alt="" />  
+                      </div>  
+                      </>
+
+                    ):(
+                    
+                      <>
+                      <Icon icon="mdi:upload" className="text-4xl mb-3" />
+                      <p className="text-center text-lg mb-2">
+                        Select a file or drag <br /> and drop it here
+                      </p>   
+                      <p className="text-xs text-gray-400 text-center mt-3">
+                        It is recommended to use high-quality .jpg files less than 20 MB
+                        in size or .mp4 files less than 200 MB in size.
+                      </p>
+                      <div className="border-b border-gray-600 my-4 w-full"></div> 
+                      </>
+                    )}
+
+                    <input className="absolute size-full opacity-0" type="file" name="" id="" {...register("image_url")}/>
+
                   </div>
 
                   {/* Input Title & Caption */}

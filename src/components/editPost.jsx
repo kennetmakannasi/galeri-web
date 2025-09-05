@@ -2,13 +2,13 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import Cookies from "js-cookie";
+import { UseToken } from "../helpers/useToken";
 import { useNavigate } from "react-router";
 
 export default function EditPost({open, onClose, postId}){
     const [data, setData] = useState()
-    const token = Cookies.get('token')
     const navigate = useNavigate()
+    const baseUrl = import.meta.env.VITE_API_URL;
 
     const {
         register,
@@ -20,9 +20,9 @@ export default function EditPost({open, onClose, postId}){
     setValue("description", data?.post?.description || 'loading...')
 
     async function fetchPostData() {
-        const res = await axios.get(`http://127.0.0.1:8000/api/post/${postId}`,{
+        const res = await axios.get(`${baseUrl}/api/post/${postId}`,{
             headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${UseToken()}`
         }
         })
         setData(res.data.content)
@@ -33,12 +33,12 @@ export default function EditPost({open, onClose, postId}){
     },[])
 
     async function onSubmit(data) {
-        const res = await axios.put(`http://127.0.0.1:8000/api/post/${postId}`,{
+        const res = await axios.put(`${baseUrl}/api/post/${postId}`,{
             title: data.title,
             description: data.description
         },{
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${UseToken()}`
             }
         })
 

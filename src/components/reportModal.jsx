@@ -1,11 +1,10 @@
 import { Dialog , DialogPanel } from "@headlessui/react"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import axios from "axios"
-import Cookies from "js-cookie"
+import { UseToken } from "../helpers/useToken"
 
 export default function ReportModal({open, onClose, repObj, triggerClose, repId}){
-
-    const token = Cookies.get("token")
+    const baseUrl = import.meta.env.VITE_API_URL;
 
     async function handleReport(msg) {
         const payload =
@@ -15,11 +14,11 @@ export default function ReportModal({open, onClose, repObj, triggerClose, repId}
             reporter_msg: msg
         }
 
-        await axios.post('http://127.0.0.1:8000/api/report'
+        await axios.post(`${baseUrl}/api/report`
         ,payload,
         {
             headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${UseToken()}`
             }
         }
         )

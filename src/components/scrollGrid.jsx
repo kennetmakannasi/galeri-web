@@ -3,12 +3,11 @@ import Masonry from "react-layout-masonry";
 import { Link } from "react-router";
 import axios from "axios";
 import PostSkeleton from "./postSkeleton";
-import Cookies from "js-cookie";
+import { UseToken } from "../helpers/useToken";
 import { useInView } from "react-intersection-observer";
 
 export default function ScrollGrid({endpoint, searchQuery}) {
   const [data, setData] = useState();
-  const token = Cookies.get("token");
   const baseUrl = import.meta.env.VITE_API_URL;
   const [page, setPage] = useState(1);
   const [ref, inView] = useInView();
@@ -18,7 +17,7 @@ export default function ScrollGrid({endpoint, searchQuery}) {
  async function fetchData() {
   const res = await axios.get(`${baseUrl}/api/${endpoint}?page=${page}${searchQuery? `&q=${searchQuery}`:''}`,{
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${UseToken()}`
     }
   })
 
@@ -45,8 +44,6 @@ export default function ScrollGrid({endpoint, searchQuery}) {
     }, 50);
  }
 
- console.log(data)
-
   return (
     <div className="mt-8">
       <Masonry columns={{ 640: 2, 1024: 3, 1440: 4 }} gap={17}>
@@ -54,7 +51,7 @@ export default function ScrollGrid({endpoint, searchQuery}) {
         <Link to={`/post/${endpoint === 'save' ? item.post.id: item.id}`}>
           <div key={idx} className="mb-3 break-inside-avoid rounded-xl overflow-hidden">
             <img
-              src={item.image_url}
+              src={baseUrl + item.image_url}
               alt={`Gallery image ${idx + 1}`}
               className="w-full h-auto object-cover"
             />

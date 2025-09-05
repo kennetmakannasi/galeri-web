@@ -2,12 +2,12 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import Cookies from "js-cookie";
+import { UseToken } from "../helpers/useToken";
 import { useNavigate } from "react-router";
 
 export default function EditComment({open, onClose, commentId}){
+    const baseUrl = import.meta.env.VITE_API_URL;
     const [data, setData] = useState()
-    const token = Cookies.get('token')
     const navigate = useNavigate()
 
     console.log(data)
@@ -21,9 +21,9 @@ export default function EditComment({open, onClose, commentId}){
     setValue("comment", data?.comment || 'loading...')
 
     async function fetchCommentData() {
-        const res = await axios.get(`http://127.0.0.1:8000/api/comment/${commentId}`,{
+        const res = await axios.get(`${baseUrl}/api/comment/${commentId}`,{
             headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${UseToken()}`
             }
         })
         setData(res.data.content)
@@ -34,11 +34,11 @@ export default function EditComment({open, onClose, commentId}){
     },[])
 
     async function onSubmit(data) {
-        const res = await axios.put(`http://127.0.0.1:8000/api/comment/${commentId}`,{
+        const res = await axios.put(`${baseUrl}/api/comment/${commentId}`,{
             comment: data.comment,
         },{
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${UseToken()}`
             }
         })
 

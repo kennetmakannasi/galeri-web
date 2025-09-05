@@ -11,9 +11,10 @@ import Comment from "../components/comment";
 import EditPost from "../components/editPost";
 import { SessionData } from "../components/layout/mainLayout";
 import { months } from "../components/json/months";
+import { UseToken } from "../helpers/useToken";
 
 export async function handleComment({request,params}) {
-  const token = Cookies.get("token")
+  const baseUrl = import.meta.env.VITE_API_URL;
   const formData = await request.formData();
   const post_id = params.id
   const comment = formData.get("comment")
@@ -22,10 +23,10 @@ export async function handleComment({request,params}) {
     comment : comment,
   }
     
-  await axios.post('http://127.0.0.1:8000/api/comment', data,
+  await axios.post(`${baseUrl}/api/comment`, data,
     {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${UseToken()}`
       }
     }
   )
@@ -34,10 +35,9 @@ export async function handleComment({request,params}) {
 }
 
 export default function PostPage() {
-
+  const baseUrl = import.meta.env.VITE_API_URL;
   const fetcher = useFetcher();
   const [data , setData] = useState();
-  const token = Cookies.get("token")
   const [commentValue, setCommentValue] = useState("")
   const {id} = useParams();
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -46,11 +46,11 @@ export default function PostPage() {
   const sessionData = useContext(SessionData);
 
   async function fetchData() {
-    const res = await axios.get(`http://127.0.0.1:8000/api/post/${id}`
+    const res = await axios.get(`${baseUrl}/api/post/${id}`
       ,
     {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${UseToken()}`
         }
       }
     )
@@ -64,33 +64,33 @@ export default function PostPage() {
   console.log(data)
 
   async function handleLike() {
-    await axios.post(`http://127.0.0.1:8000/api/like/${data.post.id}`
+    await axios.post(`${baseUrl}/api/like/${data.post.id}`
       ,{},
     {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${UseToken()}`
         }
       }
     )
   }
 
   async function handleSave() {
-    await axios.post(`http://127.0.0.1:8000/api/save`
+    await axios.post(`${baseUrl}/api/save`
       ,{
         'post_id': data.post.id
       },
     {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${UseToken()}`
         }
       }
     )
   }
 
   async function handleDelete() {
-    await axios.delete(`http://127.0.0.1:8000/api/post/${id}`,{
+    await axios.delete(`${baseUrl}/api/post/${id}`,{
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${UseToken()}`
       }
     })
 
@@ -113,7 +113,7 @@ export default function PostPage() {
           <div className="flex items-start gap-3">
             <Link to={`/profile/${data?.post?.user?.username}`}>
               <img
-                src={data?.post?.user?.profile_picture}
+                src={baseUrl + data?.post?.user?.profile_picture}
                 alt="avatar"
                 className="w-10 h-10 rounded-full object-cover border-2 border-[#2b2b2b]"
               />
@@ -184,7 +184,7 @@ export default function PostPage() {
           {/* image */}
           <div className="mt-4">
             <img
-              src={'http://127.0.0.1:8000'+data?.post?.image_url}
+              src={baseUrl + data?.post?.image_url}
               alt="post"
               className="w-full rounded-lg object-cover border border-[#222] max-h-[640px]"
             />
@@ -227,7 +227,7 @@ export default function PostPage() {
           <div className="mt-4">
             <div className="flex items-center gap-3">
               <img
-                src={OrgGanteng}
+                src={baseUrl + sessionData?.profile_picture}
                 alt="avatar"
                 className="w-9 h-9 rounded-full object-cover"
               />

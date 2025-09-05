@@ -1,12 +1,8 @@
 import axios from "axios";
-import OrgGanteng from "../assets/OrgGanteng.jpg";
-import yard from "../assets/yard.jpeg";
-import Categories from "../components/Category";
-import Masonry from "react-layout-masonry";
-import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { useContext, useEffect, useState } from "react";
 import ScrollGrid from "../components/scrollGrid";
+import { UseToken } from "../helpers/useToken";
+import { SessionData } from "../components/layout/mainLayout";
 
 function ProfileHeader({ coverImage, profileImage, username }) {
   return (
@@ -47,32 +43,14 @@ function TitleSection({ title }) {
 
 // Page.jsx
 export default function ProfilePage() {
-
-  const [selfData, setSelfData] = useState()
-
-  const token = Cookies.get("token")
-
-  async function fetchSelfData() {
-    const res = await axios.get('http://127.0.0.1:8000/api/auth/self',{
-       headers: {
-          Authorization: `Bearer ${token}`
-        }
-    })
-
-    setSelfData(res.data.content)
-  }
-
-  useEffect(()=>{
-    fetchSelfData()
-  },[])
-
-  console.log(selfData)
+  const baseUrl = import.meta.env.VITE_API_URL;
+  const data = useContext(SessionData);
 
   return (
     <div className="px-4 md:px-12 min-h-screen text-white">
       <ProfileHeader
-        coverImage={selfData?.profile_banner}
-        profileImage={selfData?.profile_picture}
+        coverImage={baseUrl + data?.profile_banner}
+        profileImage={baseUrl + data?.profile_picture}
       />
 
       <TitleSection title={"Save it for later."} />

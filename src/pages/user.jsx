@@ -1,28 +1,26 @@
 import ScrollGrid from "../components/scrollGrid";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import Dropdown from "../components/dropdown";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link } from "react-router";
 import { useState, useEffect, useContext } from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
 import ReportModal from "../components/reportModal";
 import { MenuItem } from "@headlessui/react";
 import { SessionData } from "../components/layout/mainLayout";
+import { UseToken } from "../helpers/useToken";
 
 export default function User(){
   const {username} = useParams();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+  const baseUrl = import.meta.env.VITE_API_URL;
   const [data, setData] = useState();
-  const token = Cookies.get("token")
   const id = data?.id
   const sessionData = useContext(SessionData)
 
   async function fetchSelfData() {
-  const res = await axios.get(`http://127.0.0.1:8000/api/users/${username}`,{
+  const res = await axios.get(`${baseUrl}/api/users/${username}`,{
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${UseToken()}`
     }
   })
 
@@ -30,9 +28,9 @@ export default function User(){
   }
 
   async function handleFollow(id) {
-    const res = await axios.post(`http://127.0.0.1:8000/api/users/${id}/follow`,{},{
+    const res = await axios.post(`${baseUrl}/api/users/${id}/follow`,{},{
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${UseToken()}`
       }
     })
   }
@@ -49,7 +47,7 @@ export default function User(){
                       repId={id}/>
       {data?.profile_banner ? (
         <img
-            src={data?.profile_banner || 'a'}
+            src={baseUrl + data?.profile_banner || 'a'}
             alt="hero"
             className="w-full h-80 mt-8 object-cover rounded-4xl"
           />
@@ -57,7 +55,7 @@ export default function User(){
         <div className="w-full h-80 mt-8 object-cover rounded-4xl bg-dark-gray"></div>
       ) }
         <img
-          src={data?.profile_picture}
+          src={baseUrl + data?.profile_picture}
           alt="Profile"
           className="w-40 h-40 rounded-full border-4 border-black object-cover absolute top-64 ml-10  "
         />

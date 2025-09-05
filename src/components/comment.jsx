@@ -4,23 +4,22 @@ import { MenuItem } from "@headlessui/react"
 import { useContext, useState } from "react"
 import ReportModal from "./reportModal"
 import { Link, useNavigate } from "react-router"
-import Cookies from "js-cookie"
+import { UseToken } from "../helpers/useToken"
 import EditComment from "./editComment"
 import axios from "axios"
 import { SessionData } from "./layout/mainLayout"
 
 export default function Comment ({id, profilePicture, username, date, comment, profileLink}){
-
+    const baseUrl = import.meta.env.VITE_API_URL;
     const [isDialogOpen , setIsDialogOpen] = useState(false);
     const [isEditDialog, setIsEditDialog] = useState(false);
-    const token = Cookies.get('token');
     const navigate = useNavigate();
     const sessionData = useContext(SessionData);
 
     async function handleDelete() {
-      await axios.delete(`http://127.0.0.1:8000/api/comment/${id}`,{
+      await axios.delete(`${baseUrl}/api/comment/${id}`,{
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${UseToken()}`
         }
       })
 
@@ -31,7 +30,7 @@ export default function Comment ({id, profilePicture, username, date, comment, p
         <div key={id} className="flex items-start gap-3">
           <Link to={`/profile/${profileLink}`}>
             <img
-              src={`http://127.0.0.1:8000/storage/${profilePicture}`}
+              src={baseUrl + profilePicture}
               alt="c-avatar"
               className="w-9 h-9 rounded-full object-cover"
             />
