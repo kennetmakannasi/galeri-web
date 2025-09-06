@@ -1,5 +1,5 @@
 import Categories from "../components/Category";
-import HomeGalery from "../components/HomeGalery";
+import ScrollGrid from "../components/scrollGrid";
 
 export default function ImageScrollSection() {
   const images = [
@@ -38,7 +38,7 @@ export default function ImageScrollSection() {
             See What's <span className="text-bright-yellow">New</span> on
           </h2>
         </div>
-        <HomeGalery/>
+        <ScrollGrid endpoint={'post'}/>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, redirect, RouterProvider } from "react-router";
 
 import AuthLayout from './components/layout/authLayout.jsx';
 import Login from './pages/auth/login.jsx';
@@ -11,10 +11,11 @@ import MainLayout from './components/layout/mainLayout.jsx';
 import Home from './pages/home.jsx';
 import Explore from './pages/explore.jsx';
 import Bookmark from './pages/bookmark.jsx';
-import Post from './pages/post.jsx';
-import SelfProfile from './pages/selfProfile.jsx';
+import Post, { handleComment } from './pages/post.jsx';
 import ProfileEdit from './pages/profileEdit.jsx';
 import User from './pages/user.jsx';
+import SearchPage from './pages/search.jsx';
+import Test from './pages/test.jsx';
 
 function ErrorPage() {
   return (
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Register/>
+        element: <Register/>,
       },      
     ]
   },
@@ -51,22 +52,27 @@ const router = createBrowserRouter([
         element: <Explore/>
       },
       {
-        path: "/post",
+        path: "/post/:id",
         element: <Post/>,
+        action: handleComment
+      },
+      {
+        path: "/search",
+        element: <SearchPage/>
       },
       {
         path: "/bookmark",
         element: <Bookmark/>
       },
       {
+        path: "/test",
+        element: <Test/>
+      },
+      {
         path: "/profile",
         children: [
           {
-            index: true,
-            element: <SelfProfile/>
-          },
-          {
-            path: ":userId",
+            path: ":username",
             element: <User/>,
           },
           {

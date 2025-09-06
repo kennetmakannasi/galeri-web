@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "../components/Hero";
 import SliderHome from "../components/SliderHome";
-import HomeGalery from "../components/HomeGalery";
+import ScrollGrid from "../components/scrollGrid";
 import GradientLine from "../components/GradientLine";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
          <div className="my-4">
         <GradientLine />
       </div>
-      <HomeGalery />
+      <ScrollGrid endpoint={'post'}/>
     </div>
   );
 }
