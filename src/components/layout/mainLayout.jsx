@@ -3,6 +3,7 @@ import Sidebar from "../sidebar"
 import { Outlet, useNavigate } from "react-router"
 import axios from "axios";
 import Cookies from "js-cookie";
+import Notification from "../../notificationEcho";
 
 export const SessionData = createContext()
 
@@ -39,6 +40,7 @@ export default function MainLayout() {
   return (
     <SessionData.Provider value={selfData}>
       <div className="flex">
+        <Notification/>
         <Sidebar />
         <div className="flex-1 md:pl-56 relative">
           <Outlet />

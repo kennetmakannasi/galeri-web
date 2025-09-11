@@ -15,7 +15,6 @@ import Post, { handleComment } from './pages/post.jsx';
 import ProfileEdit from './pages/profileEdit.jsx';
 import User from './pages/user.jsx';
 import SearchPage from './pages/search.jsx';
-import Test from './pages/test.jsx';
 
 function ErrorPage() {
   return (
@@ -63,10 +62,6 @@ const router = createBrowserRouter([
       {
         path: "/bookmark",
         element: <Bookmark/>
-      },
-      {
-        path: "/test",
-        element: <Test/>
       },
       {
         path: "/profile",
