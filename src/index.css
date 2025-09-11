@@ -10,6 +10,11 @@
   --color-bright-yellow: #DFD700;
   --color-dark-gray: #2E2E2E;
   --color-text-gray: #6B6B6B;
+  --color-light-gray: #545353;
+
+  --color-accent-bright-yellow: #C4B50C;
+  --color-lighter-background-black: #121212;
+  --color-accent-dark-gray: #262626;
 }
 
 html{

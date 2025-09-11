@@ -60,7 +60,7 @@ export default function Register(){
                             <input type="password" {...register("password", { required: true })} name="password" className="bg-white text-black w-full rounded-2xl p-3"/>    
                         </div>
                         <div>
-                            <button type="submit" className="bg-bright-yellow w-full mt-7 p-3 rounded-2xl " >Submit</button>
+                            <button type="submit" className="bg-bright-yellow w-full mt-7 p-3 rounded-2xl hover:bg-accent-bright-yellow transition-all duration-150" >Submit</button>
                         </div>
                     </form>
         </div>

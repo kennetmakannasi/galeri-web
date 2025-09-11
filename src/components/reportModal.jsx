@@ -26,7 +26,7 @@ export default function ReportModal({open, onClose, repObj, triggerClose, repId}
 
     return(
         <>
-        <Dialog open={open} as="div" className="fixed z-60 inset-0 flex size-full justify-center items-center bg-black/50" onClose={onClose}>
+        <Dialog open={open} className="fixed z-60 inset-0 flex size-full justify-center items-center bg-black/50" onClose={onClose}>
             <DialogPanel
                 transition 
                 className="duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 flex size-full items-center "
