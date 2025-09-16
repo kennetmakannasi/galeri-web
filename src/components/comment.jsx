@@ -8,6 +8,7 @@ import { UseToken } from "../helpers/useToken"
 import EditComment from "./editComment"
 import axios from "axios"
 import { SessionData } from "./layout/mainLayout"
+import { months } from "./json/months"
 
 export default function Comment ({id, profilePicture, username, date, comment, profileLink}){
     const baseUrl = import.meta.env.VITE_API_URL;
@@ -38,8 +39,7 @@ export default function Comment ({id, profilePicture, username, date, comment, p
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium">{username}</p>
-                  <p className="text-xs text-gray-400">{date}</p>
+                  <p className="text-sm font-medium">{username}<span className="text-text-gray">{' · '+ months[date.slice(5,7).replace('0','')] +' '+ date.slice(8,10) + ', ' + date.slice(0,4)}</span> </p>
                 </div>
                 <Dropdown
                 buttonContent={<Icon icon={"bi:three-dots"} height={18} />}
@@ -48,17 +48,17 @@ export default function Comment ({id, profilePicture, username, date, comment, p
                     <div className="flex flex-col">
                       {profileLink == sessionData?.username ? (
                         <>
-                          <button onClick={()=>setIsEditDialog(!isEditDialog)} className="text-left px-3 py-2 hover:bg-gray-700 rounded">
+                          <button onClick={()=>setIsEditDialog(!isEditDialog)} className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded">
                             Edit
                           </button>
-                          <button onClick={handleDelete} className="text-left px-3 py-2 hover:bg-gray-700 rounded">
+                          <button onClick={handleDelete} className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded">
                             Delete Comment
                           </button>
                         </>
                       ):(
                                         <button
                         type="button"
-                        className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                        className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded"
                           onClick={() => setIsDialogOpen(!isDialogOpen)}
                     >
                         Report

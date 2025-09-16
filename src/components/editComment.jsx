@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UseToken } from "../helpers/useToken";
 import { useNavigate } from "react-router";
+import ModalLayout from "./layout/modalLayout";
 
 export default function EditComment({open, onClose, commentId}){
     const baseUrl = import.meta.env.VITE_API_URL;
@@ -46,26 +47,14 @@ export default function EditComment({open, onClose, commentId}){
     }
 
     return(
-        <Dialog open={open} as="div" className="fixed z-60 inset-0 flex size-full justify-center items-center bg-black/50" onClose={onClose}>
-            <DialogPanel
-                transition 
-                className="duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 flex size-full items-center "
-            >
-                <div className="size-full flex justify-center items-center px-4">
-                    <div className="bg-dark-gray rounded-xl flex items-center justify-center">
-                        <div className="w-full p-5">
-                            <form onSubmit={handleSubmit(onSubmit)} action="">
-                                <div>
-                                    <input type="text" {...register("comment")} />    
-                                </div>
-                                <button type="submit">submit</button>
-                            </form>    
-                        </div>
-                    </div>
+        <ModalLayout open={open} onClose={onClose} content={
+            <form onSubmit={handleSubmit(onSubmit)} action="">
+                <div>
+                    <input className="w-96 px-3 py-2 rounded-md bg-light-gray text-white focus:outline-none" type="text" {...register("comment")} />    
                 </div>
-                
-            </DialogPanel>
-        </Dialog>   
+                <button className="w-full px-3 py-2 rounded-md bg-light-gray mt-3" type="submit">submit</button>
+            </form>    
+        }/>
     )
 
 }

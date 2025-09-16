@@ -79,10 +79,10 @@ export default function UploadModal() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="bg-[#1e1e1e] p-6 rounded-2xl w-[700px] flex gap-6 text-white">
+              <Dialog.Panel className="bg-dark-gray p-6 rounded-2xl w-[700px] flex gap-6 text-white">
                 <form className="grid grid-cols-1 sm:grid-cols-2 gap-3" method="post" onSubmit={handleSubmit(onSubmit)}>
                   {/* Upload Box */}
-                  <div className="bg-[#2c2c2c] rounded-2xl p-6 flex flex-col relative items-center justify-center w-full border border-gray-700">
+                  <div className="bg-light-gray rounded-2xl p-6 flex flex-col relative items-center justify-center w-full">
                     {previewImg ? (
                       <>
                                             <div className="max-h-80 overflow-y-auto">
@@ -110,14 +110,14 @@ export default function UploadModal() {
                   </div>
 
                   {/* Input Title & Caption */}
-                  <div className="bg-[#2c2c2c] rounded-2xl p-6 flex flex-col gap-4 w-full">
+                  <div className="bg-light-gray rounded-2xl p-6 flex flex-col gap-4 w-full">
                     <div>
                       <label className="block text-sm text-gray-400">Title</label>
                       <input
                         type="text"
                         {...register("title")}
                         placeholder="Add Title"
-                        className="w-full px-3 py-2 rounded-md bg-[#1e1e1e] border border-gray-700 text-white focus:outline-none"
+                        className="w-full px-3 py-2 rounded-md bg-dark-gray text-white focus:outline-none"
                       />
                     </div>
                     <div>
@@ -125,11 +125,11 @@ export default function UploadModal() {
                       <textarea
                         {...register("description")}
                         placeholder="Add caption"
-                        className="w-full px-3 py-2 rounded-md bg-[#1e1e1e] border border-gray-700 text-white focus:outline-none"
+                        className="w-full px-3 py-2 rounded-md bg-dark-gray text-white focus:outline-none"
                       ></textarea>
                     </div>
                     <div>
-                      <button type="submit" className="bg-gray-600 w-full py-2 rounded-md hover:bg-gray-500 transition">
+                      <button type="submit" className="bg-dark-gray hover:bg-accent-dark-gray w-full py-2 rounded-md transition-all duration-150">
                       Post
                     </button>
                     </div>

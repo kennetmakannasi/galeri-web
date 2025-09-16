@@ -13,6 +13,7 @@ export default function ScrollGrid({endpoint, searchQuery}) {
   const [ref, inView] = useInView();
   const [nextPage, setNextPage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [test, setTest] = useState(false)
 
  async function fetchData() {
   const res = await axios.get(`${baseUrl}/api/${endpoint}?page=${page}${searchQuery? `&q=${searchQuery}`:''}`,{
@@ -36,6 +37,14 @@ export default function ScrollGrid({endpoint, searchQuery}) {
   fetchData()
  },[page])
 
+//  useEffect(()=>{
+//   const timer = setTimeout(() => {
+//     setTest(false)
+//   }, 2000);
+
+//   return ()=> clearTimeout(timer);
+//  },[])
+
  if(inView){
       setTimeout(() => {
       console.log("inview akaka")  
@@ -46,6 +55,9 @@ export default function ScrollGrid({endpoint, searchQuery}) {
 
   return (
     <div className="mt-8">
+      {data?.length === 0 ? (
+        <p>aaaaaaaaa</p>
+      ):(
       <Masonry columns={{ 640: 2, 1024: 3, 1440: 4 }} gap={17}>
       {data?.map((item, idx) => (
         <Link to={`/post/${endpoint === 'save' ? item.post.id: item.id}`}>
@@ -73,7 +85,9 @@ export default function ScrollGrid({endpoint, searchQuery}) {
       ):(
         'no more page'
       )}
-      </Masonry>
+      </Masonry>  
+      )}
+      
     </div>
   );
 }

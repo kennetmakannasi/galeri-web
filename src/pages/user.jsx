@@ -8,6 +8,7 @@ import ReportModal from "../components/reportModal";
 import { MenuItem } from "@headlessui/react";
 import { SessionData } from "../components/layout/mainLayout";
 import { UseToken } from "../helpers/useToken";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function User(){
   const {username} = useParams();
@@ -63,13 +64,12 @@ export default function User(){
           <div className="mt-5 col-span-2 relative w-full">
             <div>
               <h1 className="text-xl font-semibold max-w-72">{data?.name}</h1>
-              <p className="text-gray-400 text-sm">{'@'+data?.username}</p>  
+              <p className="text-text-gray text-sm">{'@'+data?.username}</p>  
             </div>
             <div className=" absolute right-3 top-0">
               <Dropdown
                 buttonContent={
-                  <p>trigger</p>
-                // <Icon height={30} icon={"bi:three-dots"} />
+                <Icon height={30} icon={"bi:three-dots"} />
               }
                 dropdownContent={
                   <div className="flex flex-col gap-3">
@@ -77,7 +77,7 @@ export default function User(){
                       <Link to="/profile/edit">
                         <button
                         type="button"
-                        className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                        className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded"
                         >
                         Edit Profile
                         </button>
@@ -87,7 +87,7 @@ export default function User(){
                         <div className="flex flex-col">
                           <button
                               type="button"
-                              className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                              className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded"
                               onClick={() => setIsDialogOpen(!isDialogOpen)}
                           >
                               Report
@@ -115,11 +115,11 @@ export default function User(){
 
               <div>
                 <span className="text-white font-semibold">{data?.follower}</span>
-                <span className="text-gray-400 ml-1">followers</span>
+                <span className="text-text-gray ml-1">followers</span>
               </div>
               <div>
                 <span className="text-white font-semibold">{data?.followed}</span>
-                <span className="text-gray-400 ml-1.5">following</span>
+                <span className="text-text-gray ml-1.5">following</span>
               </div>
             </div>
           </div>

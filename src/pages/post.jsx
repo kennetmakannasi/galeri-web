@@ -108,7 +108,7 @@ export default function PostPage() {
     <div className="min-h-screen bg-background-light-black text-white px-4 lg:px-20 py-6">
       <div className="max-w-3xl mx-auto">
         {/* post card */}
-        <div className="bg-[#0b0b0b] rounded-lg p-4 shadow-md border border-[#1f1f1f]">
+        <div className="bg-[#0b0b0b] rounded-lg p-4 shadow-md border border-dark-gray">
           {/* header */}
           <div className="flex items-start gap-3">
             <Link to={`/profile/${data?.post?.user?.username}`}>
@@ -122,24 +122,24 @@ export default function PostPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{data?.post?.user?.name}</p>
-                  <p className="text-xs text-gray-400">{'@'+data?.post?.user?.username}</p>
+                  <p className="text-xs text-text-gray">{'@'+data?.post?.user?.username}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Dropdown
                     buttonContent={<Icon icon={"bi:three-dots"} height={18} />}
                     dropdownContent={
                       <MenuItem>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col bg-background-light-black">
                           {data?.post?.user_id == sessionData?.id ? (
                             <>
                               <button 
-                                className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                                className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded"
                                 onClick={()=> setIsEditDialogOpen(!isEditDialogOpen)} 
                               >
                                 Edit
                               </button>
                               <button 
-                                className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                                className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded"
                                 onClick={handleDelete} 
                               >
                                 Delete Post
@@ -149,7 +149,7 @@ export default function PostPage() {
                           ):(
                             <button
                               type="button"
-                              className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                              className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded"
                               onClick={() => setIsDialogOpen(!isDialogOpen)}
                             >
                                 Report
@@ -191,14 +191,15 @@ export default function PostPage() {
           </div>
 
           {/* meta */}
-          <div className="mt-3 text-xs text-gray-400">
+          <div className="mt-3 text-xs text-text-gray">
             {data?.post?.created_at.slice(11,16)} 
             {data?.post?.created_at.slice(11,13) <= 12 ? (' am'):(' pm')}
             {' · '+ months[data?.post?.created_at.slice(5,7).replace('0','')] +' '+ data?.post?.created_at.slice(8,10) + ', ' + data?.post?.created_at.slice(0,4)}
           </div>
+          <div className="h-px bg-dark-gray my-4" />
 
           {/* actions row */}
-          <div className="mt-3 flex items-center justify-between text-gray-300">
+          <div className="mt-3 flex items-center justify-between text-text-gray">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2 text-sm">
                 <Icon icon={"uil:comment-lines"} />
@@ -206,26 +207,24 @@ export default function PostPage() {
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <button onClick={()=> {handleLike(); fetchData();}} type="button">
-                  {/* 👍 */}
                   <Icon icon={data?.liked ? "material-symbols:favorite-rounded":"material-symbols:favorite-outline-rounded"} />  
                 </button>
-                
                 <span>{data?.Likes}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <button onClick={()=>{handleSave(); fetchData();}} type="button">
                 <Icon icon={data?.saved ?"material-symbols-light:bookmarks" : "material-symbols-light:bookmarks-outline"} />  
-                {/* 🔖 */}
                 </button>
-                
                 <span>{data?.Saves}</span>
               </div>
             </div>
           </div>
+          <div className="h-px bg-dark-gray my-4" />
+
 
           {/* reply input (sesuai request: "Post your reply") */}
           <div className="mt-4">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 border-2 border-dark-gray py-2 px-4 rounded-xl">
               <img
                 src={baseUrl + sessionData?.profile_picture}
                 alt="avatar"
@@ -235,23 +234,18 @@ export default function PostPage() {
                 <input
                   name="comment"
                   type="text"
+                  placeholder="Post your reply"
                   value={commentValue}
                   onChange={(e)=>setCommentValue(e.target.value)}
-                  className="flex-1 bg-[#0b0b0b] border border-[#222] rounded-full px-4 py-2 text-sm outline-none focus:ring-0"
+                  className="flex-1 w-full rounded-full px-4 py-2 text-sm outline-none focus:ring-0"
                 />
-                <button
-                  type="submit"
-                  className="ml-2 px-3 py-1 rounded-md bg-gradient-to-b from-gray-600 to-gray-700 border border-gray-500 text-sm"
-                >
-                  Reply
-                </button>   
               </fetcher.Form>
 
             </div>
           </div>
 
           {/* separator */}
-          <div className="h-px bg-[#1f1f1f] my-4" />
+            <div className="h-px bg-dark-gray my-4" />
 
           {/* comments list - COMMENT AJA, sesuai permintaan */}
           <div className="space-y-4">
