@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { SessionData } from '../components/layout/mainLayout';
 import { UseToken } from '../helpers/useToken';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 const EditProfile = () => {
   const baseUrl = import.meta.env.VITE_API_URL;
@@ -49,30 +50,34 @@ const EditProfile = () => {
     <div className="min-h-screen text-white px-4 md:px-12"> {/* Hapus bg-gray-900 */}
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* Header Cover - Samakan dengan SelfProfile */}
-      <div className="relative">
+      <div className="w-full h-full relative mb-22">
         {data?.profile_banner ? (
-          <div className='relative h-80 w-full'>
+          <div className='relative h-72 w-full'>
+            <div className='inset-0 size-full bg-black/30 absolute rounded-4xl flex items-center justify-center'>
+              <div className='bg-black/40 p-3 rounded-full'>
+                <Icon icon="mdi:upload" height={40} />  
+              </div>
+            </div>
             <input className='absolute size-full opacity-0' type="file" {...register("profile_banner")} />
             <img
               src={previewProfileBanner || baseUrl + data?.profile_banner}
               alt="hero"
-              className="w-full h-80 mt-15 object-cover rounded-4xl"
+              className="w-full h-72 mt-8 object-cover rounded-4xl"
             /> 
           </div>
   
         ):(
-          <div className="w-full h-80 mt-15 bg-dark-gray rounded-4xl">
+          <div className="w-full h-72 mt-8 bg-dark-gray rounded-4xl">
           </div>
         )}
-
-
-      {/*garis*/}
-      <div className="w-full h-px bg-bright-yellow bottom-[-123px] absolute"></div>
-
-        {/* Foto Profil - Samakan dengan SelfProfile */}
-        <div className="absolute bottom-[-110px] left-18 flex flex-col items-center">
+        <div className='absolute -bottom-18 ml-3'>
           <div className="relative">
             <div className="w-40 h-40 rounded-full relative border-4 border-black overflow-hidden">
+              <div className='inset-0 bg-black/30 size-full absolute flex items-center justify-center'>
+                <div className='bg-black/40 p-3 rounded-full'>
+                  <Icon icon="mdi:upload" height={40} />  
+                </div>
+              </div>
               <input {...register("profile_picture")} className='size-full absolute opacity-0' type="file" />
               <img
                 src={previewProfilePicture || baseUrl + data?.profile_picture}
@@ -80,40 +85,35 @@ const EditProfile = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-          </div>
-
-          {/* Nama & Status */}
-          <div>
-            <div className="flex items-center mt-5">
-              <h1 className="text-xl font-semibold">{data?.username}</h1>
-            </div>
-          </div>
+          </div> 
         </div>
       </div>
-
-      <div className="absolute bottom-151">
+      
+      <div>
+        <h1 className="text-xl font-semibold max-w-72">{data?.name}</h1>
+        <p className="text-text-gray text-sm">{'@'+data?.username}</p>  
       </div>
 
-      <div className="mt-38">
+      <div className="mx-auto w-full h-[2px] bg-bright-yellow mt-6"></div>
+
+      <div className='mt-16'>
           <h2 className="text-lg font-medium text-white mb-4 mt-4">Name</h2>
             <div>
               <input
                 type="text"
                 {...register("name",{required:true})}
-                className="bg-gray-800 text-white w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
+                className="bg-dark-gray text-white w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
                 placeholder="First name"
               />
             </div>
-          {/* Full Name */}
           <div>
             <h2 className="text-lg font-medium text-white my-4">Username</h2>
             <div 
-            // className="grid grid-cols-2 gap-4"
             >
               <input
                 type="text"
                 {...register("username",{required:true})}
-                className="bg-gray-800 text-white w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
+                className="bg-dark-gray text-white w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
                 placeholder="First name"
               />
             </div>
@@ -122,7 +122,7 @@ const EditProfile = () => {
               <input
                 type="text"
                 {...register("bio",{required:false})}
-                className="bg-gray-800 text-white w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
+                className="bg-dark-gray text-white w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
                 placeholder="First name"
               />
             </div>
@@ -133,13 +133,13 @@ const EditProfile = () => {
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="px-6 py-3 text-white bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+              className="px-6 py-3 text-white bg-dark-gray rounded-lg hover:bg-accent-dark-gray transition-all duration-150"
             >
               Discard
             </button>
             <button
               type="submit"
-              className="px-6 py-3 text-white bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+              className="px-6 py-3 text-white bg-dark-gray rounded-lg hover:bg-accent-dark-gray transition-all duration-150"
             >
               Save changes
             </button>

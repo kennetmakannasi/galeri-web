@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import Sidebar from "../sidebar"
-import { Outlet, useNavigate } from "react-router"
+import { Outlet, useLocation, useNavigate } from "react-router"
 import axios from "axios";
 import Cookies from "js-cookie";
 import Notification from "../../notificationEcho";
@@ -12,6 +12,8 @@ export default function MainLayout() {
   const token = Cookies.get("token")
   const navigate = useNavigate();
   const [selfData , setSelfData] = useState(); 
+  const location = useLocation()
+  
 
   async function fetchSelfData() {
     const res = await axios.get(`${baseUrl}/api/auth/self`,{
@@ -32,6 +34,12 @@ export default function MainLayout() {
       navigate('/auth/login')
     }
   }
+
+  useEffect(()=>{
+    window.scrollTo({
+      top:0
+    })
+  },[location.pathname])
 
   useEffect(()=>{
     middleware()

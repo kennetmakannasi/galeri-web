@@ -58,10 +58,13 @@ export default function SearchBar(){
                 </form>
             </div>
             {searchValue && (
-                <div className="w-full bg-dark-gray absolute z-10">
-                    {data?.map((item)=>(
+                <div className="w-full bg-background-light-black border-2 rounded-lg left-0 border-white shadow-md shadow-white absolute z-10 py-4 px-1">
+                    {data?.slice(0,3)?.map((item)=>(
                         <Link to={`/search?q=${item.title}`}>
-                            <p>{item.title}</p>
+                            <div className="px-3 py-2 flex h-full items-center rounded-lg hover:bg-dark-gray duration-150 transition-all ">
+                                <Icon className="text-text-gray" height={26} icon={'la:search'}/>
+                                <p className="w-full ml-2">{item.title}</p>    
+                            </div>
                         </Link>
                     ))}
                 </div>    

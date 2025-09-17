@@ -30,17 +30,24 @@ export default function Comment ({id, profilePicture, username, date, comment, p
     return(
         <div key={id} className="flex items-start gap-3">
           <Link to={`/profile/${profileLink}`}>
+          <div className="size-9 relative">
+            <div className="absolute inset-0 size-full rounded-full bg-black/30 opacity-0 hover:opacity-100 transition-all duration-150"></div>
             <img
               src={baseUrl + profilePicture}
               alt="c-avatar"
-              className="w-9 h-9 rounded-full object-cover"
+              className="size-full rounded-full object-cover"
             />
+          </div>
           </Link>
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium">{username}<span className="text-text-gray">{' · '+ months[date.slice(5,7).replace('0','')] +' '+ date.slice(8,10) + ', ' + date.slice(0,4)}</span> </p>
+                <div className="flex items-center">
+                  <Link to={`/profile/${profileLink}`}>
+                    <p className="text-sm font-medium hover:underline hover:underline-offset-4">{username}</p>
+                  </Link>
+                  <span className="text-text-gray ml-1 text-sm">{' · '+ months[date.slice(5,7).replace('0','')] +' '+ date.slice(8,10) + ', ' + date.slice(0,4)}</span>  
                 </div>
+                
                 <Dropdown
                 buttonContent={<Icon icon={"bi:three-dots"} height={18} />}
                 dropdownContent={

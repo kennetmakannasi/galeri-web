@@ -61,11 +61,13 @@ export default function ScrollGrid({endpoint, searchQuery}) {
       <Masonry columns={{ 640: 2, 1024: 3, 1440: 4 }} gap={17}>
       {data?.map((item, idx) => (
         <Link to={`/post/${endpoint === 'save' ? item.post.id: item.id}`}>
-          <div key={idx} className="mb-3 break-inside-avoid rounded-xl overflow-hidden">
+          <div key={idx} className="mb-3 break-inside-avoid rounded-xl overflow-hidden size-full relative">
+            <div className="bg-black opacity-0 hover:opacity-30 inset-0 size-full absolute transition-all duration-150">
+            </div>
             <img
               src={baseUrl + item.image_url}
               alt={`Gallery image ${idx + 1}`}
-              className="w-full h-auto object-cover"
+              className="size-full object-cover"
             />
           </div>
         </Link>

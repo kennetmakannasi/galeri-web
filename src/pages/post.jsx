@@ -112,16 +112,21 @@ export default function PostPage() {
           {/* header */}
           <div className="flex items-start gap-3">
             <Link to={`/profile/${data?.post?.user?.username}`}>
-              <img
-                src={baseUrl + data?.post?.user?.profile_picture}
-                alt="avatar"
-                className="w-10 h-10 rounded-full object-cover border-2 border-[#2b2b2b]"
-              />
+              <div className="size-10 relative">
+                <div className="bg-black/30 opacity-0 hover:opacity-100 inset-0 size-full rounded-full absolute transition-all duration-150"></div>
+                <img
+                  src={baseUrl + data?.post?.user?.profile_picture}
+                  alt="avatar"
+                  className="size-full rounded-full object-cover border-2 border-[#2b2b2b]"
+                />
+              </div>
             </Link>
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">{data?.post?.user?.name}</p>
+                  <Link to={`/profile/${data?.post?.user?.username}`}>
+                    <p className="font-medium hover:underline hover:underline-offset-4">{data?.post?.user?.name}</p>
+                  </Link>
                   <p className="text-xs text-text-gray">{'@'+data?.post?.user?.username}</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -206,13 +211,13 @@ export default function PostPage() {
                 <span>{data?.Comment_count}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
-                <button onClick={()=> {handleLike(); fetchData();}} type="button">
+                <button className="p-1 rounded-full hover:bg-dark-gray duration-150 transition-all" onClick={()=> {handleLike(); fetchData();}} type="button">
                   <Icon icon={data?.liked ? "material-symbols:favorite-rounded":"material-symbols:favorite-outline-rounded"} />  
                 </button>
                 <span>{data?.Likes}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
-                <button onClick={()=>{handleSave(); fetchData();}} type="button">
+                <button className="p-1 rounded-full hover:bg-dark-gray duration-150 transition-all" onClick={()=>{handleSave(); fetchData();}} type="button">
                 <Icon icon={data?.saved ?"material-symbols-light:bookmarks" : "material-symbols-light:bookmarks-outline"} />  
                 </button>
                 <span>{data?.Saves}</span>
@@ -221,8 +226,6 @@ export default function PostPage() {
           </div>
           <div className="h-px bg-dark-gray my-4" />
 
-
-          {/* reply input (sesuai request: "Post your reply") */}
           <div className="mt-4">
             <div className="flex items-center gap-3 border-2 border-dark-gray py-2 px-4 rounded-xl">
               <img
@@ -237,7 +240,7 @@ export default function PostPage() {
                   placeholder="Post your reply"
                   value={commentValue}
                   onChange={(e)=>setCommentValue(e.target.value)}
-                  className="flex-1 w-full rounded-full px-4 py-2 text-sm outline-none focus:ring-0"
+                  className="flex-1 w-full rounded-full px-3 py-2 text-sm outline-none focus:ring-0"
                 />
               </fetcher.Form>
 

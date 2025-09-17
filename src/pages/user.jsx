@@ -42,25 +42,28 @@ export default function User(){
   return(
     <div className="min-h-screen text-white px-4 md:px-12">
       <ReportModal open={isDialogOpen} 
-                      onClose={()=>setIsDialogOpen(false)} 
-                      triggerClose={()=>setIsDialogOpen(false)}
-                      repObj={"user"}
-                      repId={id}/>
-      {data?.profile_banner ? (
-        <img
-            src={baseUrl + data?.profile_banner || 'a'}
-            alt="hero"
-            className="w-full h-80 mt-8 object-cover rounded-4xl"
-          />
-      ):(
-        <div className="w-full h-80 mt-8 object-cover rounded-4xl bg-dark-gray"></div>
-      ) }
+        onClose={()=>setIsDialogOpen(false)} 
+        triggerClose={()=>setIsDialogOpen(false)}
+        repObj={"user"}
+        repId={id}
+      />
+      <div className="w-full h-full relative mb-16">
+        {data?.profile_banner ? (
+          <img
+              src={baseUrl + data?.profile_banner || 'a'}
+              alt="hero"
+              className="w-full h-72 mt-8 object-cover rounded-4xl"
+            />
+        ):(
+          <div className="w-full h-72 mt-8 object-cover rounded-4xl bg-dark-gray"></div>
+        ) }
         <img
           src={baseUrl + data?.profile_picture}
           alt="Profile"
-          className="w-40 h-40 rounded-full border-4 border-black object-cover absolute top-64 ml-10  "
+          className="w-40 h-40 rounded-full border-4 border-black object-cover absolute -bottom-18 ml-3"
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 pt-14">
+      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="mt-5 col-span-2 relative w-full">
             <div>
               <h1 className="text-xl font-semibold max-w-72">{data?.name}</h1>
@@ -107,7 +110,7 @@ export default function User(){
                 <button
                   type="button"
                   onClick={()=>{handleFollow(id); fetchSelfData();}}
-                  className=" w-full py-2 my-4 rounded-md text-sm bg-gradient-to-b from-gray-600 to-gray-700 border border-gray-500 hover:from-gray-500 hover:to-gray-600 transition-shadow shadow-sm"
+                  className=" w-full py-2 my-4 rounded-md text-sm bg-dark-gray hover:bg-accent-dark-gray transition-all duration-150"
                 >
                   {data?.isFollowing ? ('Unfollow'):('Follow')}
                 </button>
