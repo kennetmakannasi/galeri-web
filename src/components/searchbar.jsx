@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router"
+import { Link, useLocation, useNavigate } from "react-router"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import axios from "axios"
 import { UseToken } from "../helpers/useToken"
@@ -8,7 +8,9 @@ export default function SearchBar(){
     const [searchValue, setSearchValue] = useState("");
     const navigate = useNavigate();
     const [data, setData] = useState();
+    const [notfound, setNotFound] = useState(false);
     const baseUrl = import.meta.env.VITE_API_URL;
+    const location = useLocation()
 
     function handleSearch(event){
         event.preventDefault()
@@ -31,11 +33,7 @@ export default function SearchBar(){
                 const status = error.response.status
 
                 if(status === 404){
-                    setData(
-                        [{
-                            title: "not found"
-                        }]
-                    )
+                    setNotFound(true)
                 }
                 console.error(error)
             }    
@@ -49,6 +47,14 @@ export default function SearchBar(){
         
     }, [searchValue])
 
+    useEffect(()=>{
+        setSearchValue("")
+    }, [location.pathname])
+
+    useEffect(()=>{
+        setNotFound(false)
+    }, [searchValue])
+
     return(
         <>
             <div className="relative h-8 flex items-center">
@@ -58,18 +64,19 @@ export default function SearchBar(){
                 </form>
             </div>
             {searchValue && (
-                <div className="w-full bg-background-light-black border-2 rounded-lg left-0 border-white shadow-md shadow-white absolute z-10 py-4 px-1">
-                    {data?.slice(0,3)?.map((item)=>(
-                        <Link to={`/search?q=${item.title}`}>
-                            <div className="px-3 py-2 flex h-full items-center rounded-lg hover:bg-dark-gray duration-150 transition-all ">
-                                <Icon className="text-text-gray" height={26} icon={'la:search'}/>
-                                <p className="w-full ml-2">{item.title}</p>    
-                            </div>
-                        </Link>
-                    ))}
-                </div>    
+                notfound === false && (
+                    <div className="w-full bg-background-light-black border-2 rounded-lg left-0 border-white shadow-md shadow-white absolute z-10 py-4 px-1">
+                        {data?.slice(0,3)?.map((item)=>(
+                            <Link to={`/search?q=${item.title}`}>
+                                <div className="px-3 py-2 flex h-full items-center rounded-lg hover:bg-dark-gray duration-150 transition-all ">
+                                    <Icon className="text-text-gray" height={26} icon={'la:search'}/>
+                                    <p className="w-full ml-2">{item.title}</p>    
+                                </div>
+                            </Link>
+                        ))}
+                    </div>       
+                )
             )}
- 
         </>
   
     )

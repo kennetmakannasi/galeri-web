@@ -34,19 +34,23 @@ export default function Notification() {
     useEffect(()=>{
          const channel = window.Echo.private(`private-channel.user.${Cookies.get("uId")}`)
             channel.listen('PostEvent', (e) => {
-            console.log(e);
-                alert(`${e.liker.name} ${e.type === 'liked'? 'liked': e.type === 'commented' ? 'commented':''} your post`)
+              console.log(e);
+              alert(`${e.liker.name} ${e.type === 'liked'? 'liked': e.type === 'commented' ? 'commented':''} your post`)
             })
 
             channel.listen('UserEvent', (e) => {
-                console.log(e);
-                alert(`${e.follower.name} followed you`)
+              console.log(e);
+              alert(`${e.follower.name} followed you`)
             })
 
+            channel.listen('ReportNotifyEvent', (e) => {
+              console.log(e);
+            })
 
             return () => {
-            channel.stopListening('PostEvent');
-            channel.stopListening('UserEvent');
+              channel.stopListening('PostEvent');
+              channel.stopListening('UserEvent');
+              channel.stopListening('ReportNotifyEvent');
             };
     },[])
 }

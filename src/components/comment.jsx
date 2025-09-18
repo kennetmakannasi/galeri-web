@@ -10,7 +10,7 @@ import axios from "axios"
 import { SessionData } from "./layout/mainLayout"
 import { months } from "./json/months"
 
-export default function Comment ({id, profilePicture, username, date, comment, profileLink}){
+export default function Comment ({id,repUserId, profilePicture, username, date, comment, profileLink}){
     const baseUrl = import.meta.env.VITE_API_URL;
     const [isDialogOpen , setIsDialogOpen] = useState(false);
     const [isEditDialog, setIsEditDialog] = useState(false);
@@ -84,6 +84,7 @@ export default function Comment ({id, profilePicture, username, date, comment, p
                 triggerClose={()=>setIsDialogOpen(false)}
                 repObj={"comment"}
                 repId={id}
+                repUserId={repUserId}
             />
             <EditComment open={isEditDialog}
             onClose={()=>setIsEditDialog(false)} 

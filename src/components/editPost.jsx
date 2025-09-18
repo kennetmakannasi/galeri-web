@@ -50,12 +50,14 @@ export default function EditPost({open, onClose, postId}){
         <ModalLayout open={open} onClose={onClose} content={
             <form onSubmit={handleSubmit(onSubmit)} action="">
                 <div>
+                    <label className="block text-sm text-gray-400">Title</label>
                     <input className="w-96 px-3 py-2 rounded-md bg-light-gray text-white focus:outline-none" type="text" {...register("title")} />    
                 </div>
                 <div className="mt-3">
+                    <label className="block text-sm text-gray-400">Caption</label>
                     <input className="w-96 px-3 py-2 rounded-md bg-light-gray text-white focus:outline-none" type="text" {...register("description")} />    
                 </div>
-                <button className="w-full px-3 py-2 rounded-md bg-light-gray mt-3" type="submit">submit</button>
+                <button className="w-full px-3 py-2 rounded-md bg-light-gray mt-10 hover:bg-accent-light-gray duration-150 transition-all" type="submit">submit</button>
             </form>    
         }/>
     )

@@ -170,7 +170,8 @@ export default function PostPage() {
                 onClose={()=>setIsDialogOpen(false)} 
                 triggerClose={()=>setIsDialogOpen(false)}
                 repObj={"post"}
-                repId={data?.post?.id}/>
+                repId={data?.post?.id}
+                repUserId={data?.post?.user?.id}/>
                 <EditPost open={isEditDialogOpen}
                 onClose={()=>setIsEditDialogOpen(false)} 
                 postId={id}
@@ -255,6 +256,7 @@ export default function PostPage() {
             {data?.post?.comments?.map((c) => (
               <Comment
                 id={c.id}
+                repUserId={c.user.id}
                 profilePicture={c.user.profile_picture}
                 username={c.user.username}
                 date={c.created_at}

@@ -4,7 +4,7 @@ import axios from "axios"
 import { UseToken } from "../helpers/useToken"
 import ModalLayout from "./layout/modalLayout";
 
-export default function ReportModal({open, onClose, repObj, triggerClose, repId}){
+export default function ReportModal({open, onClose, repObj, triggerClose, repId, repUserId}){
     const baseUrl = import.meta.env.VITE_API_URL;
 
     async function handleReport(msg) {
@@ -12,6 +12,7 @@ export default function ReportModal({open, onClose, repObj, triggerClose, repId}
         {
             reporter_obj: repObj,
             object_id: repId,
+            reported_user_id: repUserId,
             reporter_msg: msg
         }
 

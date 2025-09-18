@@ -46,6 +46,7 @@ export default function User(){
         triggerClose={()=>setIsDialogOpen(false)}
         repObj={"user"}
         repId={id}
+        repUserId={data?.id}
       />
       <div className="w-full h-full relative mb-16">
         {data?.profile_banner ? (

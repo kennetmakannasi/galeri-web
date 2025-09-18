@@ -50,9 +50,10 @@ export default function EditComment({open, onClose, commentId}){
         <ModalLayout open={open} onClose={onClose} content={
             <form onSubmit={handleSubmit(onSubmit)} action="">
                 <div>
+                    <label className="block text-sm text-gray-400">Comment</label>
                     <input className="w-96 px-3 py-2 rounded-md bg-light-gray text-white focus:outline-none" type="text" {...register("comment")} />    
                 </div>
-                <button className="w-full px-3 py-2 rounded-md bg-light-gray mt-3" type="submit">submit</button>
+                <button className="w-full px-3 py-2 rounded-md bg-light-gray mt-10 hover:bg-accent-light-gray transition-all duration-150" type="submit">submit</button>
             </form>    
         }/>
     )
