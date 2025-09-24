@@ -111,7 +111,8 @@ export default function PostPage() {
         <div className="bg-[#0b0b0b] rounded-lg p-4 shadow-md border border-dark-gray">
           {/* header */}
           <div className="flex items-start gap-3">
-            <Link to={`/profile/${data?.post?.user?.username}`}>
+            {data ? (
+              <Link to={`/profile/${data?.post?.user?.username}`}>
               <div className="size-10 relative">
                 <div className="bg-black/30 opacity-0 hover:opacity-100 inset-0 size-full rounded-full absolute transition-all duration-150"></div>
                 <img
@@ -121,13 +122,26 @@ export default function PostPage() {
                 />
               </div>
             </Link>
+            ):(
+              <div className="bg-dark-gray size-10 rounded-full animate-pulse"></div>
+            )}
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <Link to={`/profile/${data?.post?.user?.username}`}>
-                    <p className="font-medium hover:underline hover:underline-offset-4">{data?.post?.user?.name}</p>
-                  </Link>
-                  <p className="text-xs text-text-gray">{'@'+data?.post?.user?.username}</p>
+                  {data ? (
+                    <>
+                      <Link to={`/profile/${data?.post?.user?.username}`}>
+                        <p className="font-medium hover:underline hover:underline-offset-4">{data?.post?.user?.name}</p>
+                      </Link>
+                      <p className="text-xs text-text-gray">{'@'+data?.post?.user?.username}</p> 
+                    </>
+                  ):(
+                    <>
+                    <div className="h-5 w-20 bg-dark-gray rounded-md animate-pulse"></div>
+                    <div className="h-4 w-20 bg-dark-gray rounded-md animate-pulse mt-2"></div>
+                    </>
+                  )}
+                  
                 </div>
                 <div className="flex items-center gap-2">
                   <Dropdown
@@ -177,31 +191,48 @@ export default function PostPage() {
                 postId={id}
                 />
               </div>
-              <p className="mt-3 text-lg font-semibold">
-                {data?.post?.title}
-              </p>
-              {/* caption */}
-              <p className="text-sm leading-relaxed">
-                {data?.post?.description}
-              </p>
+              {data?(
+                <>
+                  <p className="mt-3 text-lg font-semibold">
+                    {data?.post?.title}
+                  </p>
+                  {/* caption */}
+                  <p className="text-sm leading-relaxed">
+                    {data?.post?.description}
+                  </p>  
+                </>
+              ):(
+                <div className="w-full h-16 mt-3 rounded-lg bg-dark-gray animate-pulse"></div>
+              )}
+              
+
             </div>
           </div>
 
           {/* image */}
           <div className="mt-4">
-            <img
-              src={baseUrl + data?.post?.image_url}
-              alt="post"
-              className="w-full rounded-lg object-cover border border-[#222] max-h-[640px]"
-            />
+            {data ? (
+              <img
+                src={baseUrl + data?.post?.image_url}
+                alt="post"
+                className="w-full rounded-lg object-cover border border-[#222] max-h-[640px]"
+              />  
+            ):(
+              <div className="bg-dark-gray w-full h-96 rounded-lg animate-pulse"></div>
+            )}
+
           </div>
 
           {/* meta */}
-          <div className="mt-3 text-xs text-text-gray">
-            {data?.post?.created_at.slice(11,16)} 
-            {data?.post?.created_at.slice(11,13) <= 12 ? (' am'):(' pm')}
-            {' · '+ months[data?.post?.created_at.slice(5,7).replace('0','')] +' '+ data?.post?.created_at.slice(8,10) + ', ' + data?.post?.created_at.slice(0,4)}
-          </div>
+          {data ? (
+            <div className="mt-3 text-xs text-text-gray">
+              {data?.post?.created_at.slice(11,16)} 
+              {data?.post?.created_at.slice(11,13) <= 12 ? (' am'):(' pm')}
+              {' · '+ months[data?.post?.created_at.slice(5,7).replace('0','')] +' '+ data?.post?.created_at.slice(8,10) + ', ' + data?.post?.created_at.slice(0,4)}
+            </div>  
+          ):(
+            <div className="bg-dark-gray w-56 h-4 mt-3 rounded-md animate-pulse"></div>
+          )}
           <div className="h-px bg-dark-gray my-4" />
 
           {/* actions row */}
@@ -229,11 +260,16 @@ export default function PostPage() {
 
           <div className="mt-4">
             <div className="flex items-center gap-3 border-2 border-dark-gray py-2 px-4 rounded-xl">
-              <img
-                src={baseUrl + sessionData?.profile_picture}
-                alt="avatar"
-                className="w-9 h-9 rounded-full object-cover"
-              />
+              {sessionData ? (
+                <img
+                  src={baseUrl + sessionData?.profile_picture}
+                  alt="avatar"
+                  className="w-9 h-9 rounded-full object-cover"
+                />  
+              ):(
+                <div className="bg-dark-gray size-10 rounded-full animate-pulse"></div>
+              )}
+
               <fetcher.Form method="post">
                 <input
                   name="comment"
@@ -249,7 +285,7 @@ export default function PostPage() {
           </div>
 
           {/* separator */}
-            <div className="h-px bg-dark-gray my-4" />
+          <div className="h-px bg-dark-gray my-4" />
 
           {/* comments list - COMMENT AJA, sesuai permintaan */}
           <div className="space-y-4">

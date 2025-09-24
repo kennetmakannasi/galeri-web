@@ -56,20 +56,32 @@ export default function User(){
               className="w-full h-72 mt-8 object-cover rounded-4xl"
             />
         ):(
-          <div className="w-full h-72 mt-8 object-cover rounded-4xl bg-dark-gray"></div>
+          <div className="w-full h-72 mt-8 object-cover rounded-4xl bg-dark-gray animate-pulse"></div>
         ) }
-        <img
-          src={baseUrl + data?.profile_picture}
-          alt="Profile"
-          className="w-40 h-40 rounded-full border-4 border-black object-cover absolute -bottom-18 ml-3"
-        />
+        {data ? (
+          <img
+            src={baseUrl + data?.profile_picture}
+            alt="Profile"
+            className="w-40 h-40 rounded-full border-4 border-black object-cover absolute -bottom-18 ml-3"
+          />  
+        ):(
+          <div className="w-40 h-40 rounded-full border-4 border-black bg-dark-gray animate-pulse object-cover absolute -bottom-18 ml-3"></div>
+        )}
+
       </div>
         <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="mt-5 col-span-2 relative w-full">
-            <div>
-              <h1 className="text-xl font-semibold max-w-72">{data?.name}</h1>
-              <p className="text-text-gray text-sm">{'@'+data?.username}</p>  
-            </div>
+            {data ? (
+              <div>
+                <h1 className="text-xl font-semibold max-w-72">{data?.name}</h1>
+                <p className="text-text-gray text-sm">{'@'+data?.username}</p>  
+              </div>  
+            ):(
+              <div>
+                <div className="h-5 w-36 bg-dark-gray rounded-md animate-pulse"></div>
+                <div className="h-4 w-20 bg-dark-gray rounded-md animate-pulse mt-2"></div>
+              </div>
+            )}
             <div className=" absolute right-3 top-0">
               <Dropdown
                 buttonContent={
@@ -116,15 +128,24 @@ export default function User(){
                   {data?.isFollowing ? ('Unfollow'):('Follow')}
                 </button>
               )}
+              {data ? (
+                <>
+                  <div>
+                    <span className="text-white font-semibold">{data?.follower}</span>
+                    <span className="text-text-gray ml-1">followers</span>
+                  </div>
+                  <div>
+                    <span className="text-white font-semibold">{data?.followed}</span>
+                    <span className="text-text-gray ml-1.5">following</span>
+                  </div>  
+                </>
+              ):(
+                <>
+                <div className="h-4 w-20 bg-dark-gray rounded-md animate-pulse mt-2"></div>
+                <div className="h-4 w-20 bg-dark-gray rounded-md animate-pulse mt-2"></div>
+                </>
+              )}
 
-              <div>
-                <span className="text-white font-semibold">{data?.follower}</span>
-                <span className="text-text-gray ml-1">followers</span>
-              </div>
-              <div>
-                <span className="text-white font-semibold">{data?.followed}</span>
-                <span className="text-text-gray ml-1.5">following</span>
-              </div>
             </div>
           </div>
       </div>
