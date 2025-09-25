@@ -1,7 +1,8 @@
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import axios from "axios"
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function Register(){
     const baseUrl = import.meta.env.VITE_API_URL;
@@ -10,23 +11,51 @@ export default function Register(){
 
     async function onSubmit(data) {
         try{
-            const res = await axios.post(`${baseUrl}/api/auth/register`, 
-            {
-                name: data.name,
-                username: data.username,
-                email: data.email,
-                password: data.password
-            } ,{
-                headers:{
-                'Content-Type': 'application/json'
+            const res = await toast.promise(
+                axios.post(`${baseUrl}/api/auth/register`, 
+                {
+                    name: data.name,
+                    username: data.username,
+                    email: data.email,
+                    password: data.password
+                } ,{
+                    headers:{
+                    'Content-Type': 'application/json'
+                    }
+                },
+                ),
+                {
+                    loading: 'Logging In...',
+                    success: <b>Success!</b>,
+                } ,
+                {
+                    loading:{
+                        style: {
+                            borderRadius: '10px',
+                            background: '#2E2E2E',
+                            color: '#fff',
+                        },
+                    },
+                    success:{
+                        style:{
+                            borderRadius: '10px',
+                            background: '#2E2E2E',
+                            color: '#fff',
+                        }
+                    },
                 }
-            },
-
             ) 
             const token = res.data.content
             Cookies.set('token', token, {expires:7})
             navigate('/')
         }catch(error){
+            toast.error("Unknown Error",{
+                style:{
+                    borderRadius: '10px',
+                    background: '#2E2E2E',
+                    color: '#fff',
+                }
+            })
             console.error(error)
         }     
     }
@@ -61,6 +90,9 @@ export default function Register(){
                         </div>
                         <div>
                             <button type="submit" className="bg-bright-yellow w-full mt-7 p-3 rounded-2xl hover:bg-accent-bright-yellow transition-all duration-150" >Submit</button>
+                        </div>
+                        <div className="flex w-full justify-center items-center mt-16">
+                            <p>Allready have an account? <Link className="font-semibold hover:underline" to={'/auth/login'}>Login</Link></p>
                         </div>
                     </form>
         </div>

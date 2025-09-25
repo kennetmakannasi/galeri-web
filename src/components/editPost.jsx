@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { UseToken } from "../helpers/useToken";
 import { useNavigate } from "react-router";
 import ModalLayout from "./layout/modalLayout";
+import toast from "react-hot-toast";
 
 export default function EditPost({open, onClose, postId}){
     const [data, setData] = useState()
@@ -34,14 +35,36 @@ export default function EditPost({open, onClose, postId}){
     },[])
 
     async function onSubmit(data) {
-        const res = await axios.put(`${baseUrl}/api/post/${postId}`,{
-            title: data.title,
-            description: data.description
-        },{
-            headers: {
-                Authorization: `Bearer ${UseToken()}`
+        const res = await toast.promise(
+            axios.put(`${baseUrl}/api/post/${postId}`,{
+                title: data.title,
+                description: data.description
+            },{
+                headers: {
+                    Authorization: `Bearer ${UseToken()}`
+                }
+            }),
+            {
+                loading: 'Editing...',
+                success: <b>Success!</b>,
+            } ,
+            {
+                loading:{
+                    style: {
+                        borderRadius: '10px',
+                        background: '#2E2E2E',
+                        color: '#fff',
+                    },
+                },
+                success:{
+                    style:{
+                        borderRadius: '10px',
+                        background: '#2E2E2E',
+                        color: '#fff',
+                    }
+                },
             }
-        })
+        )
 
         navigate(0)
     }

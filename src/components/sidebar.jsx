@@ -7,6 +7,7 @@ import axios from "axios";
 import UploadModal from "./AddPost";
 import { SessionData } from "./layout/mainLayout";
 import SearchBar from "./searchbar";
+import toast from "react-hot-toast";
 
 export default function Sidebar(){
     const baseUrl = import.meta.env.VITE_API_URL;
@@ -17,11 +18,33 @@ export default function Sidebar(){
     const navigate = useNavigate()
 
     async function handleLogOut(){
-        await axios.get(`${baseUrl}/api/auth/logout`,{
-            headers: {
-                Authorization: `Bearer ${UseToken()}`
+        await toast.promise(
+            axios.get(`${baseUrl}/api/auth/logout`,{
+                headers: {
+                    Authorization: `Bearer ${UseToken()}`
+                }
+            }),
+            {
+                loading: 'Logging Out...',
+                success: <b>Success!</b>,
+            } ,
+            {
+                loading:{
+                    style: {
+                        borderRadius: '10px',
+                        background: '#2E2E2E',
+                        color: '#fff',
+                    },
+                },
+                success:{
+                    style:{
+                        borderRadius: '10px',
+                        background: '#2E2E2E',
+                        color: '#fff',
+                    }
+                },
             }
-        })
+        )
         Cookies.remove("token")
         Cookies.remove("uId")
         navigate('/auth/login')

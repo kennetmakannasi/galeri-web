@@ -65,7 +65,7 @@ export default function ScrollGrid({endpoint, searchQuery}) {
             <div className="bg-black opacity-0 hover:opacity-30 inset-0 size-full absolute transition-all duration-150">
             </div>
             <img
-              src={baseUrl + item.image_url}
+              src={endpoint === 'save' ? baseUrl + item.post.image_url: baseUrl + item.image_url}
               alt={`Gallery image ${idx + 1}`}
               className="size-full object-cover"
             />

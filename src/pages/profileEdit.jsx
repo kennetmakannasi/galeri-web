@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { SessionData } from '../components/layout/mainLayout';
 import { UseToken } from '../helpers/useToken';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import toast from 'react-hot-toast';
 
 const EditProfile = () => {
   const baseUrl = import.meta.env.VITE_API_URL;
@@ -25,13 +26,35 @@ const EditProfile = () => {
       profile_banner: data.profile_banner[0]
     }
 
-    await axios.post(`${baseUrl}/api/users/editus`, payload,{
-      headers: {
-        Authorization: 
-          `Bearer ${UseToken()}`,
-          'Content-Type': 'multipart/form-data'
+    await toast.promise(
+      axios.post(`${baseUrl}/api/users/editus`, payload,{
+        headers: {
+          Authorization: 
+            `Bearer ${UseToken()}`,
+            'Content-Type': 'multipart/form-data'
         }
-    })
+      }),
+      {
+        loading: 'Saving Changes...',
+        success: <b>Success!</b>,
+      } ,
+      {
+          loading:{
+              style: {
+                  borderRadius: '10px',
+                  background: '#2E2E2E',
+                  color: '#fff',
+              },
+          },
+          success:{
+              style:{
+                  borderRadius: '10px',
+                  background: '#2E2E2E',
+                  color: '#fff',
+              }
+          },
+      }
+    ) 
 
     navigate(0)
 
@@ -49,7 +72,6 @@ const EditProfile = () => {
   return (
     <div className="min-h-screen text-white px-4 md:px-12"> {/* Hapus bg-gray-900 */}
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Header Cover - Samakan dengan SelfProfile */}
       <div className="w-full h-full relative mb-22">
         {data?.profile_banner ? (
           <div className='relative h-72 w-full'>
@@ -67,33 +89,44 @@ const EditProfile = () => {
           </div>
   
         ):(
-          <div className="w-full h-72 mt-8 bg-dark-gray rounded-4xl">
+          <div className="w-full h-72 mt-8 bg-dark-gray rounded-4xl animate-pulse">
           </div>
         )}
         <div className='absolute -bottom-18 ml-3'>
           <div className="relative">
-            <div className="w-40 h-40 rounded-full relative border-4 border-black overflow-hidden">
-              <div className='inset-0 bg-black/30 size-full absolute flex items-center justify-center'>
-                <div className='bg-black/40 p-3 rounded-full'>
-                  <Icon icon="mdi:upload" height={40} />  
+            {data ? (
+              <div className="w-40 h-40 rounded-full relative border-4 border-black overflow-hidden">
+                <div className='inset-0 bg-black/30 size-full absolute flex items-center justify-center'>
+                  <div className='bg-black/40 p-3 rounded-full'>
+                    <Icon icon="mdi:upload" height={40} />  
+                  </div>
                 </div>
-              </div>
-              <input {...register("profile_picture")} className='size-full absolute opacity-0' type="file" />
-              <img
-                src={previewProfilePicture || baseUrl + data?.profile_picture}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            </div>
+                <input {...register("profile_picture")} className='size-full absolute opacity-0' type="file" />
+                <img
+                  src={previewProfilePicture || baseUrl + data?.profile_picture}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </div>  
+            ):(
+              <div className="w-40 h-40 rounded-full relative border-4 border-black overflow-hidden bg-dark-gray animate-pulse"></div>
+            )}
+
           </div> 
         </div>
       </div>
+      {data ? (
+        <div>
+          <h1 className="text-xl font-semibold max-w-72">{data?.name}</h1>
+          <p className="text-text-gray text-sm">{'@'+data?.username}</p>  
+        </div>
+      ):(
+        <div>
+          <div className="h-5 w-36 bg-dark-gray rounded-md animate-pulse"></div>
+          <div className="h-4 w-20 bg-dark-gray rounded-md animate-pulse mt-2"></div>
+        </div>
+      )}
       
-      <div>
-        <h1 className="text-xl font-semibold max-w-72">{data?.name}</h1>
-        <p className="text-text-gray text-sm">{'@'+data?.username}</p>  
-      </div>
-
       <div className="mx-auto w-full h-[2px] bg-bright-yellow mt-6"></div>
 
       <div className='mt-16'>

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { UseToken } from "../helpers/useToken";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function UploadModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,18 +21,47 @@ export default function UploadModal() {
         "image_url": data.image_url[0]
       }
 
-      const res = await axios.post(`${baseUrl}/api/post`, payload,
-        {
-          headers: {
-            Authorization: `Bearer ${UseToken()}`,
-            'Content-Type': 'multipart/form-data'
+      const res = await toast.promise(
+        axios.post(`${baseUrl}/api/post`, payload,
+          {
+            headers: {
+              Authorization: `Bearer ${UseToken()}`,
+              'Content-Type': 'multipart/form-data'
+            }
           }
+        ),
+        {
+          loading: 'Posting...',
+          success: <b>Success!</b>,
+        } ,
+        {
+            loading:{
+                style: {
+                    borderRadius: '10px',
+                    background: '#2E2E2E',
+                    color: '#fff',
+                },
+            },
+            success:{
+                style:{
+                    borderRadius: '10px',
+                    background: '#2E2E2E',
+                    color: '#fff',
+                }
+            },
         }
-      )
+      ) 
       console.log(payload)
       navigate(0)
     }catch(error){
       console.error(error)
+      toast.error('Failed to make Post',{
+        style:{
+          borderRadius: '10px',
+          background: '#2E2E2E',
+          color: '#fff',
+        }
+      })
     }
     
   }

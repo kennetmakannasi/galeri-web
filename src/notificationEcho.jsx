@@ -3,6 +3,7 @@ import Echo from 'laravel-echo';
 import { UseToken } from './helpers/useToken';
 import { useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import toast from 'react-hot-toast';
 
 window.pusher = Pusher;
 
@@ -20,14 +21,14 @@ window.Echo = new Echo({
 
     disableStats: true,
     cluster: 'mt1',
-  encrypted: false,
-  enabledTransports: ['ws', 'wss'],
-  authEndpoint: `${import.meta.env.VITE_API_URL}/broadcasting/auth`,
-  auth: {
-    headers: {
-      Authorization: `Bearer ${UseToken()}`
+    encrypted: false,
+    enabledTransports: ['ws', 'wss'],
+    authEndpoint: `${import.meta.env.VITE_API_URL}/broadcasting/auth`,
+    auth: {
+      headers: {
+        Authorization: `Bearer ${UseToken()}`
+      }
     }
-  }
 });
 export default function Notification() {
 
@@ -35,12 +36,30 @@ export default function Notification() {
          const channel = window.Echo.private(`private-channel.user.${Cookies.get("uId")}`)
             channel.listen('PostEvent', (e) => {
               console.log(e);
-              alert(`${e.liker.name} ${e.type === 'liked'? 'liked': e.type === 'commented' ? 'commented':''} your post`)
+              toast(
+                `${e.liker.name} ${e.type === 'liked'? 'liked': e.type === 'commented' ? 'commented':''} your post`,
+                {
+                  duration: 6000,
+                  style: {
+                    background: '#333',
+                    color: '#fff'
+                  }
+                }
+              )
             })
 
             channel.listen('UserEvent', (e) => {
               console.log(e);
-              alert(`${e.follower.name} followed you`)
+              toast(
+                `${e.follower.name} followed you`,
+                {
+                  duration: 6000,
+                  style: {
+                    background: '#333',
+                    color: '#fff'
+                  }
+                }
+              )
             })
 
             channel.listen('ReportNotifyEvent', (e) => {

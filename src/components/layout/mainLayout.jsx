@@ -4,6 +4,7 @@ import { Outlet, useLocation, useNavigate } from "react-router"
 import axios from "axios";
 import Cookies from "js-cookie";
 import Notification from "../../notificationEcho";
+import { Toaster } from "react-hot-toast";
 
 export const SessionData = createContext()
 
@@ -47,6 +48,7 @@ export default function MainLayout() {
 
   return (
     <SessionData.Provider value={selfData}>
+      <Toaster/>
       <div className="flex">
         <Notification/>
         <Sidebar />

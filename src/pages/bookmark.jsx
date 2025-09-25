@@ -14,7 +14,7 @@ function ProfileHeader({ coverImage, profileImage, username }) {
           className="w-full h-72 object-cover rounded-4xl mt-8"
         />  
       ):(
-        <div className="w-full h-72 rounded-4xl mt-8 bg-dark-gray"></div>
+        <div className="w-full h-72 rounded-4xl mt-8 bg-dark-gray animate-pulse"></div>
       )}
 
       <div className="absolute -bottom-18 right-3">
@@ -45,10 +45,31 @@ export default function ProfilePage() {
 
   return (
     <div className="px-4 md:px-12 min-h-screen text-white">
-      <ProfileHeader
-        coverImage={baseUrl + data?.profile_banner}
-        profileImage={baseUrl + data?.profile_picture}
-      />
+      <div className="w-full h-full relative mb-22">
+        {data? (
+          <>
+            <img
+              src ={baseUrl + data?.profile_banner}
+              alt ="cover"
+              className="w-full h-72 object-cover rounded-4xl mt-8"
+            />  
+            <div className="absolute -bottom-18 right-3">
+              <img
+                src={baseUrl + data?.profile_picture}
+                alt="profile"
+                className="w-40 h-40 rounded-full border-4 border-black object-cover"
+              />
+            </div>
+          </>
+        ):(
+          <>
+            <div className="w-full h-72 rounded-4xl mt-8 bg-dark-gray animate-pulse"></div>
+             <div className="absolute -bottom-18 right-3">
+              <div className="w-40 h-40 rounded-full border-4 border-black bg-dark-gray animate-pulse"></div>
+            </div>
+          </>
+        )}
+      </div>
 
       <TitleSection title={"Save it for later."} />
 
