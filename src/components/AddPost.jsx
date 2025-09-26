@@ -21,7 +21,7 @@ export default function UploadModal() {
         "image_url": data.image_url[0]
       }
 
-      const res = await toast.promise(
+      await toast.promise(
         axios.post(`${baseUrl}/api/post`, payload,
           {
             headers: {

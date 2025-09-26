@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
@@ -126,7 +126,7 @@ const EditProfile = () => {
           <div className="h-4 w-20 bg-dark-gray rounded-md animate-pulse mt-2"></div>
         </div>
       )}
-      
+
       <div className="mx-auto w-full h-[2px] bg-bright-yellow mt-6"></div>
 
       <div className='mt-16'>

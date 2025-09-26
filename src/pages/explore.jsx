@@ -1,4 +1,3 @@
-import Categories from "../components/Category";
 import ScrollGrid from "../components/scrollGrid";
 
 export default function ImageScrollSection() {
@@ -13,10 +12,9 @@ export default function ImageScrollSection() {
 
   return (
     <div className="w-full px-4 md:px-12 py-6">
-      <h2 className="text-lg font-bold mb-4 text-bright-yellow">
+      <h2 className="text-xl font-bold mb-4 text-bright-yellow">
         Tren<span className="text-white">ding</span>
       </h2>
-
       {/* Scroll horizontal gambar */}
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 w-full gap-6">
         {images.map((src, index) => (
@@ -28,13 +26,9 @@ export default function ImageScrollSection() {
         ))}
       </div>
 
-      <div className="my-4">
-        <Categories />
-      </div>
-
-      <div className="my-4">
+      <div className="my-10">
         <div>
-          <h2 className="text-2xl font-bold mb-4 text-white">
+          <h2 className="text-xl font-bold mb-4 text-white">
             See What's <span className="text-bright-yellow">New</span> on
           </h2>
         </div>

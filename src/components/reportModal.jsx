@@ -28,31 +28,33 @@ export default function ReportModal({open, onClose, repObj, triggerClose, repId,
 
     return(
         <ModalLayout open={open} onClose={onClose} content={
-            <>
-            <div className="flex items-center">
-                <button onClick={triggerClose}>
-                    <Icon height={30} icon={'iconoir:cancel'}/>
-                </button>
-                <p className="text-xl ml-3">Why are you Reporting?</p>    
+            <div className="w-80 md:w-96">
+                <div className="flex items-center relative justify-center">
+                    <button className="absolute left-0" onClick={triggerClose}>
+                        <Icon height={30} icon={'iconoir:cancel'}/>
+                    </button>
+                    <p>Report</p>
+                </div>
+                <div className="h-1 w-full bg-light-gray rounded-full my-2"></div> 
+                <p className="ml-3 mt-2">Why are you Reporting?</p>  
+                <ul className="mt-3">
+                    <li className="bg-light-gray rounded-lg hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option1')}>Option1</button>
+                    </li>
+                    <li className="bg-light-gray rounded-lg mt-2 hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option2')}>Option2</button>
+                    </li>
+                    <li className="bg-light-gray rounded-lg mt-2 hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option3')}>Option3</button>
+                    </li>
+                    <li className="bg-light-gray rounded-lg mt-2 hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option4')}>Option4</button>
+                    </li>
+                    <li className="bg-light-gray rounded-lg mt-2 hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option5')}>Option5</button>
+                    </li>
+                </ul>
             </div>
-            <ul className="mt-3">
-                <li>
-                    <button className="ml-4 py-2" onClick={()=>handleReport('option1')}>Option1</button>
-                </li>
-                <li>
-                    <button className="ml-4 py-2" onClick={()=>handleReport('option2')}>Option2</button>
-                </li>
-                <li>
-                    <button className="ml-4 py-2" onClick={()=>handleReport('option3')}>Option3</button>
-                </li>
-                <li>
-                    <button className="ml-4 py-2" onClick={()=>handleReport('option4')}>Option4</button>
-                </li>
-                <li>
-                    <button className="ml-4 py-2" onClick={()=>handleReport('option5')}>Option5</button>
-                </li>
-            </ul>
-            </>
         }/>
     )
 }
