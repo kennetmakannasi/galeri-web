@@ -73,7 +73,7 @@ export default function ScrollGrid({endpoint, searchQuery}) {
         )
       ):(
         data?.length === 0 ? (
-          <p>aaaaaaaaa</p>
+          <p>{endpoint === 'save'? 'you didnt have any saved posts yet' : 'you didnt post anything yet'}</p>
         ):(
         <Masonry columns={{ 640: 2, 1024: 3, 1440: 4 }} gap={17}>
         {data?.map((item, idx) => (
