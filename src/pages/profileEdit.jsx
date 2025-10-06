@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,14 @@ const EditProfile = () => {
   const baseUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const data = useContext(SessionData);
-  const {register, handleSubmit , setValue , watch} = useForm()
+  const {
+    register, 
+    handleSubmit , 
+    setValue , 
+    watch,
+    clearErrors,
+    formState: { errors },
+  } = useForm()
 
   setValue("name", data?.name || '...')
   setValue("username", data?.username || '...')
@@ -68,6 +75,12 @@ const EditProfile = () => {
   const proBannerImg = watch("profile_banner");
   const proBannerFile = proBannerImg?  proBannerImg[0] : null
   const previewProfileBanner = proBannerFile? URL.createObjectURL(proBannerFile) : null
+
+  useEffect(()=>{
+    setTimeout(() => {
+      clearErrors()
+    }, 3000);
+  },[errors])
 
   return (
     <div className="min-h-screen text-white px-4 md:px-12"> {/* Hapus bg-gray-900 */}
@@ -145,19 +158,33 @@ const EditProfile = () => {
             >
               <input
                 type="text"
-                {...register("username",{required:true})}
+                {...register("username",{
+                  required:true,
+                  pattern:{
+                    value:  /^[a-zA-Z0-9_-]+$/,
+                    message: 'username cannot contain space or special characters',
+                  }
+                })}
                 className="bg-dark-gray text-white w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
                 placeholder="First name"
               />
+              {errors.username && <p>{errors.username.message}</p>}
             </div>
             <h2 className="text-lg font-medium text-white mb-4 mt-4">Bio</h2>
             <div>
               <input
                 type="text"
-                {...register("bio",{required:false})}
+                {...register("bio",{
+                  required:false,
+                  maxLength:{
+                    value: 255,
+                    message: 'Bio cant be longer than 255 characters'
+                  }
+                })}
                 className="bg-dark-gray text-white w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
                 placeholder="First name"
               />
+              {errors.bio && <p>{errors.bio.message}</p>}
             </div>
           </div>
 

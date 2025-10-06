@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,13 @@ import toast from "react-hot-toast";
 
 export default function UploadModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const {register, handleSubmit, watch, setValue}= useForm();
+  const {
+    register, 
+    handleSubmit, 
+    watch,
+    clearErrors,
+    formState: { errors },
+  }= useForm();
   const navigate = useNavigate();
   const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -21,7 +27,7 @@ export default function UploadModal() {
         "image_url": data.image_url[0]
       }
 
-      await toast.promise(
+      const res = await toast.promise(
         axios.post(`${baseUrl}/api/post`, payload,
           {
             headers: {
@@ -55,13 +61,25 @@ export default function UploadModal() {
       navigate(0)
     }catch(error){
       console.error(error)
-      toast.error('Failed to make Post',{
-        style:{
-          borderRadius: '10px',
-          background: '#2E2E2E',
-          color: '#fff',
-        }
-      })
+      const status = error.response.status;
+
+      if(status === 422){
+        toast.error('Image size too big, the maximum size is 2MB',{
+          style:{
+            borderRadius: '10px',
+            background: '#2E2E2E',
+            color: '#fff',
+          }
+        })
+      }else{
+        toast.error('Failed to make Post',{
+          style:{
+            borderRadius: '10px',
+            background: '#2E2E2E',
+            color: '#fff',
+          }
+        })
+      }
     }
     
   }
@@ -69,6 +87,14 @@ export default function UploadModal() {
   const img = watch("image_url");
   const file = img?  img[0] : null
   const previewImg = file? URL.createObjectURL(file) : null
+  
+  useEffect(()=>{
+    if(errors){
+      setTimeout(() => {
+        clearErrors();
+      }, 3000);
+    }
+  },[errors])
 
   return (
     <>
@@ -115,7 +141,7 @@ export default function UploadModal() {
                   <div className="bg-light-gray rounded-2xl p-6 flex flex-col relative items-center justify-center w-full">
                     {previewImg ? (
                       <>
-                                            <div className="max-h-80 overflow-y-auto">
+                      <div className="max-h-80 overflow-y-auto">
                         <img className="w-full object-cover" src={previewImg || 'no'} alt="" />  
                       </div>  
                       </>
@@ -135,7 +161,14 @@ export default function UploadModal() {
                       </>
                     )}
 
-                    <input className="absolute size-full opacity-0" type="file" name="" id="" {...register("image_url")}/>
+                    <input className="absolute size-full opacity-0" type="file" name="" id="" {...register("image_url",{
+                      required:'image is required',
+                      validate: {
+                        lessThan2MB: (fileList)=>
+                        fileList[0]?.size <= 2 * 1024 * 1024 || 'Maxiumum image size is 2 MB',
+                      }
+                    })}/>
+                    {errors.image_url && <p>{errors.image_url.message}</p>}
 
                   </div>
 
@@ -145,18 +178,31 @@ export default function UploadModal() {
                       <label className="block text-sm text-gray-400">Title</label>
                       <input
                         type="text"
-                        {...register("title")}
+                        {...register("title",{
+                          required: 'title is required',
+                          maxLength:{
+                            value: 255,
+                            message: 'Title cant be longer than 255 characters'
+                          }
+                        })}
                         placeholder="Add Title"
                         className="w-full px-3 py-2 rounded-md bg-dark-gray text-white focus:outline-none"
                       />
+                      {errors.title && <p>{errors.title.message}</p>}
                     </div>
                     <div>
                       <label className="block text-sm text-gray-400">Caption</label>
                       <textarea
-                        {...register("description")}
+                        {...register("description",{
+                          maxLength:{
+                            value: 255,
+                            message: 'Description cant be longer than 255 characters'
+                          }
+                        })}
                         placeholder="Add caption"
                         className="w-full px-3 py-2 rounded-md bg-dark-gray text-white focus:outline-none"
                       ></textarea>
+                      {errors.description && <p>{errors.description.message}</p>}
                     </div>
                     <div>
                       <button type="submit" className="bg-dark-gray hover:bg-accent-dark-gray w-full py-2 rounded-md transition-all duration-150">
