@@ -1,9 +1,10 @@
 import { Dialog , DialogPanel } from "@headlessui/react"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import axios from "axios"
-import { UseToken } from "../helpers/useToken"
+import { api, UseToken } from "../helpers/api"
+import ModalLayout from "./layout/modalLayout";
 
-export default function ReportModal({open, onClose, repObj, triggerClose, repId}){
+export default function ReportModal({open, onClose, repObj, triggerClose, repId, repUserId}){
     const baseUrl = import.meta.env.VITE_API_URL;
 
     async function handleReport(msg) {
@@ -11,10 +12,11 @@ export default function ReportModal({open, onClose, repObj, triggerClose, repId}
         {
             reporter_obj: repObj,
             object_id: repId,
+            reported_user_id: repUserId,
             reporter_msg: msg
         }
 
-        await axios.post(`${baseUrl}/api/report`
+        await api.post(`/api/report`
         ,payload,
         {
             headers: {
@@ -25,44 +27,34 @@ export default function ReportModal({open, onClose, repObj, triggerClose, repId}
     }
 
     return(
-        <>
-        <Dialog open={open} as="div" className="fixed z-60 inset-0 flex size-full justify-center items-center bg-black/50" onClose={onClose}>
-            <DialogPanel
-                transition 
-                className="duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 flex size-full items-center "
-            >
-                <div className="size-full flex justify-center items-center px-4">
-                    <div className="bg-dark-gray rounded-xl flex items-center justify-center">
-                        <div className="w-full p-5">
-                            <div className="flex items-center">
-                                <button onClick={triggerClose}>
-                                    <Icon height={30} icon={'iconoir:cancel'}/>
-                                </button>
-                                <p className="text-xl ml-3">Why are you Reporting?</p>    
-                            </div>
-                            <ul className="mt-3">
-                                <li>
-                                    <button className="ml-4 py-2" onClick={()=>handleReport('option1')}>Option1</button>
-                                </li>
-                                <li>
-                                    <button className="ml-4 py-2" onClick={()=>handleReport('option2')}>Option2</button>
-                                </li>
-                                <li>
-                                    <button className="ml-4 py-2" onClick={()=>handleReport('option3')}>Option3</button>
-                                </li>
-                                <li>
-                                    <button className="ml-4 py-2" onClick={()=>handleReport('option4')}>Option4</button>
-                                </li>
-                                <li>
-                                    <button className="ml-4 py-2" onClick={()=>handleReport('option5')}>Option5</button>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
+        <ModalLayout open={open} onClose={onClose} content={
+            <div className="w-80 md:w-96">
+                <div className="flex items-center relative justify-center">
+                    <button className="absolute left-0" onClick={triggerClose}>
+                        <Icon height={30} icon={'iconoir:cancel'}/>
+                    </button>
+                    <p>Report</p>
                 </div>
-            </DialogPanel>
-        </Dialog>
-        </>
+                <div className="h-1 w-full bg-light-gray rounded-full my-2"></div> 
+                <p className="ml-3 mt-2">Why are you Reporting?</p>  
+                <ul className="mt-3">
+                    <li className="bg-light-gray rounded-lg hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option1')}>Option1</button>
+                    </li>
+                    <li className="bg-light-gray rounded-lg mt-2 hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option2')}>Option2</button>
+                    </li>
+                    <li className="bg-light-gray rounded-lg mt-2 hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option3')}>Option3</button>
+                    </li>
+                    <li className="bg-light-gray rounded-lg mt-2 hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option4')}>Option4</button>
+                    </li>
+                    <li className="bg-light-gray rounded-lg mt-2 hover:bg-accent-light-gray transition-all duration-150">
+                        <button className="ml-4 py-2" onClick={()=>handleReport('option5')}>Option5</button>
+                    </li>
+                </ul>
+            </div>
+        }/>
     )
 }

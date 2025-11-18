@@ -4,12 +4,12 @@ import { MenuItem } from "@headlessui/react"
 import { useContext, useState } from "react"
 import ReportModal from "./reportModal"
 import { Link, useNavigate } from "react-router"
-import { UseToken } from "../helpers/useToken"
+import { api, UseToken } from "../helpers/api"
 import EditComment from "./editComment"
-import axios from "axios"
 import { SessionData } from "./layout/mainLayout"
+import { months } from "./json/months"
 
-export default function Comment ({id, profilePicture, username, date, comment, profileLink}){
+export default function Comment ({id,repUserId, profilePicture, username, date, comment, profileLink}){
     const baseUrl = import.meta.env.VITE_API_URL;
     const [isDialogOpen , setIsDialogOpen] = useState(false);
     const [isEditDialog, setIsEditDialog] = useState(false);
@@ -17,7 +17,7 @@ export default function Comment ({id, profilePicture, username, date, comment, p
     const sessionData = useContext(SessionData);
 
     async function handleDelete() {
-      await axios.delete(`${baseUrl}/api/comment/${id}`,{
+      await api.delete(`/api/comment/${id}`,{
         headers: {
           Authorization: `Bearer ${UseToken()}`
         }
@@ -29,18 +29,24 @@ export default function Comment ({id, profilePicture, username, date, comment, p
     return(
         <div key={id} className="flex items-start gap-3">
           <Link to={`/profile/${profileLink}`}>
+          <div className="size-9 relative">
+            <div className="absolute inset-0 size-full rounded-full bg-black/30 opacity-0 hover:opacity-100 transition-all duration-150"></div>
             <img
               src={baseUrl + profilePicture}
               alt="c-avatar"
-              className="w-9 h-9 rounded-full object-cover"
+              className="size-full rounded-full object-cover"
             />
+          </div>
           </Link>
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium">{username}</p>
-                  <p className="text-xs text-gray-400">{date}</p>
+                <div className="flex items-center">
+                  <Link to={`/profile/${profileLink}`}>
+                    <p className="text-sm font-medium hover:underline hover:underline-offset-4">{username}</p>
+                  </Link>
+                  <span className="text-text-gray ml-1 text-sm">{' · '+ months[date.slice(5,7).replace('0','')] +' '+ date.slice(8,10) + ', ' + date.slice(0,4)}</span>  
                 </div>
+                
                 <Dropdown
                 buttonContent={<Icon icon={"bi:three-dots"} height={18} />}
                 dropdownContent={
@@ -48,17 +54,17 @@ export default function Comment ({id, profilePicture, username, date, comment, p
                     <div className="flex flex-col">
                       {profileLink == sessionData?.username ? (
                         <>
-                          <button onClick={()=>setIsEditDialog(!isEditDialog)} className="text-left px-3 py-2 hover:bg-gray-700 rounded">
+                          <button onClick={()=>setIsEditDialog(!isEditDialog)} className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded">
                             Edit
                           </button>
-                          <button onClick={handleDelete} className="text-left px-3 py-2 hover:bg-gray-700 rounded">
+                          <button onClick={handleDelete} className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded">
                             Delete Comment
                           </button>
                         </>
                       ):(
                                         <button
                         type="button"
-                        className="text-left px-3 py-2 hover:bg-gray-700 rounded"
+                        className="text-left px-3 py-2 hover:bg-accent-dark-gray duration-150 transition-all rounded"
                           onClick={() => setIsDialogOpen(!isDialogOpen)}
                     >
                         Report
@@ -77,6 +83,7 @@ export default function Comment ({id, profilePicture, username, date, comment, p
                 triggerClose={()=>setIsDialogOpen(false)}
                 repObj={"comment"}
                 repId={id}
+                repUserId={repUserId}
             />
             <EditComment open={isEditDialog}
             onClose={()=>setIsEditDialog(false)} 

@@ -1,12 +1,11 @@
-import { Dialog, DialogPanel } from "@headlessui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { UseToken } from "../helpers/useToken";
+import { api, UseToken } from "../helpers/api";
 import { useNavigate } from "react-router";
+import ModalLayout from "./layout/modalLayout";
+import toast from "react-hot-toast";
 
 export default function EditComment({open, onClose, commentId}){
-    const baseUrl = import.meta.env.VITE_API_URL;
     const [data, setData] = useState()
     const navigate = useNavigate()
 
@@ -21,7 +20,7 @@ export default function EditComment({open, onClose, commentId}){
     setValue("comment", data?.comment || 'loading...')
 
     async function fetchCommentData() {
-        const res = await axios.get(`${baseUrl}/api/comment/${commentId}`,{
+        const res = await api.get(`/api/comment/${commentId}`,{
             headers: {
             Authorization: `Bearer ${UseToken()}`
             }
@@ -34,38 +33,48 @@ export default function EditComment({open, onClose, commentId}){
     },[])
 
     async function onSubmit(data) {
-        const res = await axios.put(`${baseUrl}/api/comment/${commentId}`,{
-            comment: data.comment,
-        },{
-            headers: {
-                Authorization: `Bearer ${UseToken()}`
+        const res = await toast.promise(
+            api.put(`/api/comment/${commentId}`,{
+                comment: data.comment,
+            },{
+                headers: {
+                    Authorization: `Bearer ${UseToken()}`
+                }
+            }),
+            {
+                loading: 'Editing...',
+                success: <b>Success!</b>,
+            } ,
+            {
+                loading:{
+                    style: {
+                        borderRadius: '10px',
+                        background: '#2E2E2E',
+                        color: '#fff',
+                    },
+                },
+                success:{
+                    style:{
+                        borderRadius: '10px',
+                        background: '#2E2E2E',
+                        color: '#fff',
+                    }
+                },
             }
-        })
-
+        ) 
         navigate(0)
     }
 
     return(
-        <Dialog open={open} as="div" className="fixed z-60 inset-0 flex size-full justify-center items-center bg-black/50" onClose={onClose}>
-            <DialogPanel
-                transition 
-                className="duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 flex size-full items-center "
-            >
-                <div className="size-full flex justify-center items-center px-4">
-                    <div className="bg-dark-gray rounded-xl flex items-center justify-center">
-                        <div className="w-full p-5">
-                            <form onSubmit={handleSubmit(onSubmit)} action="">
-                                <div>
-                                    <input type="text" {...register("comment")} />    
-                                </div>
-                                <button type="submit">submit</button>
-                            </form>    
-                        </div>
-                    </div>
+        <ModalLayout open={open} onClose={onClose} content={
+            <form onSubmit={handleSubmit(onSubmit)} action="">
+                <div>
+                    <label className="block text-sm text-gray-400">Comment</label>
+                    <input className="w-96 px-3 py-2 rounded-md bg-light-gray text-white focus:outline-none" type="text" {...register("comment")} />    
                 </div>
-                
-            </DialogPanel>
-        </Dialog>   
+                <button className="w-full px-3 py-2 rounded-md bg-light-gray mt-10 hover:bg-accent-light-gray transition-all duration-150" type="submit">submit</button>
+            </form>    
+        }/>
     )
 
 }
