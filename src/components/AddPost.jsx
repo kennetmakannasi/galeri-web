@@ -2,9 +2,8 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import { useForm } from "react-hook-form";
-import { UseToken } from "../helpers/useToken";
+import { api, UseToken } from "../helpers/api";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function UploadModal() {
@@ -17,8 +16,6 @@ export default function UploadModal() {
     formState: { errors },
   }= useForm();
   const navigate = useNavigate();
-  const baseUrl = import.meta.env.VITE_API_URL;
-
   async function onSubmit(data) { 
     try{
       const payload = {
@@ -28,7 +25,7 @@ export default function UploadModal() {
       }
 
       const res = await toast.promise(
-        axios.post(`${baseUrl}/api/post`, payload,
+        api.post(`/api/post`, payload,
           {
             headers: {
               Authorization: `Bearer ${UseToken()}`,

@@ -1,15 +1,14 @@
 import { createContext, useEffect, useState } from "react";
 import Sidebar from "../sidebar"
 import { Outlet, useLocation, useNavigate } from "react-router"
-import axios from "axios";
 import Cookies from "js-cookie";
-import Notification from "../../notificationEcho";
+import Notification from "../../helpers/notificationEcho";
 import { Toaster } from "react-hot-toast";
+import { api } from "../../helpers/api";
 
 export const SessionData = createContext()
 
 export default function MainLayout() {
-  const baseUrl = import.meta.env.VITE_API_URL;
   const token = Cookies.get("token")
   const navigate = useNavigate();
   const [selfData , setSelfData] = useState(); 
@@ -17,7 +16,7 @@ export default function MainLayout() {
   
 
   async function fetchSelfData() {
-    const res = await axios.get(`${baseUrl}/api/auth/self`,{
+    const res = await api.get(`/api/auth/self`,{
        headers: {
         Authorization: `Bearer ${token}`
       }

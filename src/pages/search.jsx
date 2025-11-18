@@ -11,7 +11,7 @@ export default function SearchPage(){
             {param ? (
                 <ScrollGrid endpoint={'post/search'} searchQuery={param}/>   
             ):(
-                <p>aaaaaa</p>
+                <p>Enter a keyword</p>
             )}
              
         </div>

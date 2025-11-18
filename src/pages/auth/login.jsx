@@ -4,9 +4,9 @@ import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
+import { api } from "../../helpers/api";
 
 export default function Login(){
-    const baseUrl = import.meta.env.VITE_API_URL;
     const {
         register, 
         handleSubmit, 
@@ -18,7 +18,7 @@ export default function Login(){
     async function onSubmit(data) {
         try{
             const res = await toast.promise(
-                axios.post(`${baseUrl}/api/auth/login`, 
+                api.post(`/api/auth/login`, 
                 {
                     username: data.username,
                     password: data.password

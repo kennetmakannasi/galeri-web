@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router"
 import { Icon } from "@iconify/react/dist/iconify.js"
-import axios from "axios"
-import { UseToken } from "../helpers/useToken"
+import { UseToken, api } from "../helpers/api"
 
 export default function SearchBar(){
     const [searchValue, setSearchValue] = useState("");
     const navigate = useNavigate();
     const [data, setData] = useState();
     const [notfound, setNotFound] = useState(false);
-    const baseUrl = import.meta.env.VITE_API_URL;
     const location = useLocation()
 
     function handleSearch(event){
@@ -22,7 +20,7 @@ export default function SearchBar(){
     async function fetchData() {
         if(searchValue){
             try{
-                const res = await axios.get(`${baseUrl}/api/post/search?q=${searchValue}`,{
+                const res = await api.get(`/api/post/search?q=${searchValue}`,{
                     headers: {
                 Authorization: `Bearer ${UseToken()}`,
                 'Content-Type': 'multipart/form-data'
