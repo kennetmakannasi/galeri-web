@@ -87,6 +87,15 @@ export default function Sidebar(){
                         </div>
                     </Link>
                 </li>
+                <li className="my-5">
+                    <Link className="flex" to={'/notification'}>
+                        <Icon height={20} icon={'mingcute:notification-line'}/>
+                        <div className="relative">
+                            <p className={`ml-3 after:absolute after:h-0.5 after:bottom-0 after:w-0 after:left-0 after:bg-white after:ml-3 hover:after:w-full after:duration-150 after:transition-all
+                                ${path === '/notification' ? 'after:absolute after:h-0.5 after:bottom-0 after:w-full after:left-0 after:bg-gradient-to-r after:from-bright-yellow after:to-white after:ml-3 after:duration-150 after:transition-all':''}`}>Notification</p>    
+                        </div>
+                    </Link>
+                </li>
                 <li>
                     <SearchBar/>
                 </li>
