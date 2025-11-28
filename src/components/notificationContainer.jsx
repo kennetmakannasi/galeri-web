@@ -8,8 +8,6 @@ import Dropdown from "./dropdown";
 import { MenuItem } from "@headlessui/react";
 
 export default function NotificationContainer({id, message, date, isRead, type, notifiedId}){
-
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false)
     const navigate = useNavigate()
 
     async function deleteNotification(id) {
@@ -85,10 +83,6 @@ export default function NotificationContainer({id, message, date, isRead, type, 
                             </MenuItem>
                         }
                     />
-                    <button className="p-1 rounded-full hover:bg-accent-dark-gray duration-150 transition-all"
-                        onClick={()=>setIsDrawerOpen(true)}>
-                        
-                    </button>
                 </div>  
                 <div className="h-px bg-dark-gray mt-4 mb-2"></div>  
             </div>
