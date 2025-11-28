@@ -8,6 +8,7 @@ import { api, UseToken } from "../helpers/api"
 import EditComment from "./editComment"
 import { SessionData } from "./layout/mainLayout"
 import { months } from "./json/months"
+import { formatDate } from "../helpers/date"
 
 export default function Comment ({id,repUserId, profilePicture, username, date, comment, profileLink}){
     const baseUrl = import.meta.env.VITE_API_URL;
@@ -44,7 +45,7 @@ export default function Comment ({id,repUserId, profilePicture, username, date, 
                   <Link to={`/profile/${profileLink}`}>
                     <p className="text-sm font-medium hover:underline hover:underline-offset-4">{username}</p>
                   </Link>
-                  <span className="text-text-gray ml-1 text-sm">{' · '+ months[date.slice(5,7).replace('0','')] +' '+ date.slice(8,10) + ', ' + date.slice(0,4)}</span>  
+                  <span className="text-text-gray ml-1 text-sm">{formatDate(date)}</span>  
                 </div>
                 
                 <Dropdown

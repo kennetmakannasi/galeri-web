@@ -19,6 +19,7 @@ export default function User(){
   const [error, setError] = useState(false);
   const id = data?.id
   const sessionData = useContext(SessionData)
+  const [loading, setLoading] = useState(true)
   
   // navigate(0)
 
@@ -30,9 +31,11 @@ export default function User(){
         }
       })
       setData(res.data.content)
-      
+      setLoading(false)      
     }catch(error){
       setError(true)
+    }finally{
+      setLoading(false)
     }
  
   }
@@ -133,15 +136,18 @@ export default function User(){
             </div>
             <div className="w-full relative flex items-center md:col-start-2 h-36">
               <div className="md:absolute md:right-3">
-                {id != sessionData?.id && (
-                  <button
-                    type="button"
-                    onClick={()=>{handleFollow(id); fetchSelfData();}}
-                    className=" w-full py-2 my-4 rounded-md text-sm bg-dark-gray hover:bg-accent-dark-gray transition-all duration-150"
-                  >
-                    {data?.isFollowing ? ('Unfollow'):('Follow')}
-                  </button>
+                {!loading && (
+                  id != sessionData?.id && (
+                    <button
+                      type="button"
+                      onClick={()=>{handleFollow(id); fetchSelfData();}}
+                      className=" w-full py-2 my-4 rounded-md text-sm bg-dark-gray hover:bg-accent-dark-gray transition-all duration-150"
+                    >
+                      {data?.isFollowing ? ('Unfollow'):('Follow')}
+                    </button>
+                  )  
                 )}
+
                 {data ? (
                   <>
                     <div>

@@ -4,30 +4,6 @@ import ScrollGrid from "../components/scrollGrid";
 import { UseToken } from "../helpers/api";
 import { SessionData } from "../components/layout/mainLayout";
 
-function ProfileHeader({ coverImage, profileImage, username }) {
-  return (
-    <div className="w-full h-full relative mb-22">
-      {coverImage? (
-        <img
-          src ={coverImage}
-          alt ="cover"
-          className="w-full h-72 object-cover rounded-4xl mt-8"
-        />  
-      ):(
-        <div className="w-full h-72 rounded-4xl mt-8 bg-dark-gray animate-pulse"></div>
-      )}
-
-      <div className="absolute -bottom-18 right-3">
-        <img
-          src={profileImage}
-          alt="profile"
-          className="w-40 h-40 rounded-full border-4 border-black object-cover"
-        />
-      </div>
-    </div>
-  );
-}
-
 // TitleSection.jsx
 function TitleSection({ title }) {
   return (
@@ -72,8 +48,10 @@ export default function ProfilePage() {
       </div>
 
       <TitleSection title={"Save it for later."} />
-
-      <ScrollGrid endpoint={'save'}/>
+      <div className="mt-8">
+        <ScrollGrid endpoint={'save'}/>  
+      </div>
+      
     </div>
   );
 }
